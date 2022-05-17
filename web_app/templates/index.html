@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lane Merge Visualization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9M86-1yyuucibiNR-wh8kiboANAcUjuI&libraries=visualization" async></script>
+
+   <script>
+  function loadMap() {
+    // create the map
+    map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 19,
+        center: {lat: 41.703812, lng: -8.797880},
+        mapTypeId: "satellite",
+    });
+
+            const marker_road = new google.maps.Marker({
+            position: new google.maps.LatLng(41.703967, -8.797882),
+            icon: {
+                url: 'static/car.png',
+                scaledSize: new google.maps.Size(60, 60)
+            },
+            title: "OBU",
+            map: map,
+        });
+            const marker2_road = new google.maps.Marker({
+            position: new google.maps.LatLng(41.703771, -8.797723),
+            icon: {
+                url: 'static/car.png',
+                scaledSize: new google.maps.Size(60, 60)
+            },
+            title: "OBU",
+            map: map,
+        });
+            const marker_merger = new google.maps.Marker({
+            position: new google.maps.LatLng(41.703847, -8.797987),
+            icon: {
+                url: 'static/car.png',
+                scaledSize: new google.maps.Size(60, 60)
+            },
+            title: "OBU",
+            map: map,
+        });
+            const marker3_road = new google.maps.Marker({
+            position: new google.maps.LatLng(41.703594, -8.797601),
+            icon: {
+                url: 'static/car.png',
+                scaledSize: new google.maps.Size(60, 60)
+            },
+            title: "OBU",
+            map: map,
+        });
+    } 
+   </script>
+
+</head>
+<body onload="loadMap()">
+    <div>
+   <h1 style="float: left;">Lane Merge Visualization </h1>
+   <img style="float: right;margin-right: 50px; height: 60px;" src="static/ua.png">
+   <img style="float: right;margin-right: 50px; height: 60px;" src="static/logo.png">
+    </div>
+   <div id='map' style='height:800px; width:100%;'></div>
+</body>
+</html>
