@@ -9,7 +9,7 @@
 
 
    <script>
-       var marker_road
+       var marker_road, marker_merger
   function loadMap() {
     // create the map
     map = new google.maps.Map(document.getElementById("map"), {
@@ -23,7 +23,6 @@
             icon: {
                 url: 'static/antenna.png',
                 scaledSize: new google.maps.Size(80, 80),
-                //anchor: new google.maps.Point(20, 40),
             },
             title: "RSU",
             map: map,
@@ -32,8 +31,8 @@
             position: new google.maps.LatLng(41.703967, -8.797882),
             icon: {
                 url: 'static/car.png',
-                scaledSize: new google.maps.Size(40, 40),
-                anchor: new google.maps.Point(20, 20),
+                scaledSize: new google.maps.Size(26, 26),
+                anchor: new google.maps.Point(7, 13),
             },
             title: "OBU",
             map: map,
@@ -42,18 +41,18 @@
             position: new google.maps.LatLng(41.703771, -8.797723),
             icon: {
                 url: 'static/car.png',
-                scaledSize: new google.maps.Size(40, 40),
-                anchor: new google.maps.Point(20, 20),
+                scaledSize: new google.maps.Size(26, 26),
+                anchor: new google.maps.Point(7, 13),
             },
             title: "OBU",
             map: map,
         });
-            const marker_merger = new google.maps.Marker({
-            position: new google.maps.LatLng(41.703847, -8.797987),
+            marker_merger = new google.maps.Marker({
+            position: new google.maps.LatLng(41.704029, -8.798800),
             icon: {
                 url: 'static/car.png',
-                scaledSize: new google.maps.Size(40, 40),
-                anchor: new google.maps.Point(20, 20),
+                scaledSize: new google.maps.Size(26, 26),
+                anchor: new google.maps.Point(7, 13),
             },
             title: "OBU",
             map: map,
@@ -62,8 +61,8 @@
             position: new google.maps.LatLng(41.703594, -8.797601),
             icon: {
                 url: 'static/car.png',
-                scaledSize: new google.maps.Size(40, 40),
-                anchor: new google.maps.Point(20, 20),
+                scaledSize: new google.maps.Size(26, 26),
+                anchor: new google.maps.Point(7, 13),
             },
             title: "OBU",
             map: map,
@@ -76,7 +75,7 @@
     function updateMarker() {
         $.get('/get_coords',{}, function(json) {
         var LatLng = new google.maps.LatLng(json.lat, json.lon);
-        marker_road.setPosition(LatLng);
+        marker_merger.setPosition(LatLng);
     });
 }
    </script>
