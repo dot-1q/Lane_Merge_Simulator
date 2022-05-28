@@ -1,10 +1,12 @@
 from enum import Enum
 
+
 class CauseCode(Enum):
     MergeEvent = 31
     Breaking = 32
     SpeedingUp = 33
     MaintainingVelocity = 34
+
 
 class SubCauseCode(Enum):
     MergeRequest = 31
@@ -12,6 +14,7 @@ class SubCauseCode(Enum):
     FinishedMerge = 33
     MergeDenied = 34
     NotInvolved = 35
+
 
 class ActionID:
     originating_station_id: int
@@ -36,7 +39,12 @@ class PositionConfidenceEllipse:
     semi_minor_confidence: int
     semi_major_orientation: int
 
-    def __init__(self, semi_major_confidence: int, semi_minor_confidence: int, semi_major_orientation: int) -> None:
+    def __init__(
+        self,
+        semi_major_confidence: int,
+        semi_minor_confidence: int,
+        semi_major_orientation: int,
+    ) -> None:
         self.semi_major_confidence = semi_major_confidence
         self.semi_minor_confidence = semi_minor_confidence
         self.semi_major_orientation = semi_major_orientation
@@ -48,7 +56,13 @@ class EventPosition:
     position_confidence_ellipse: PositionConfidenceEllipse
     altitude: Altitude
 
-    def __init__(self, latitude: float, longitude: float, position_confidence_ellipse: PositionConfidenceEllipse, altitude: Altitude) -> None:
+    def __init__(
+        self,
+        latitude: float,
+        longitude: float,
+        position_confidence_ellipse: PositionConfidenceEllipse,
+        altitude: Altitude,
+    ) -> None:
         self.latitude = latitude
         self.longitude = longitude
         self.position_confidence_ellipse = position_confidence_ellipse
@@ -63,7 +77,15 @@ class Management:
     validity_duration: int
     station_type: int
 
-    def __init__(self, action_id: ActionID, detection_time: float, reference_time: float, event_position: EventPosition, validity_duration: int, station_type: int) -> None:
+    def __init__(
+        self,
+        action_id: ActionID,
+        detection_time: float,
+        reference_time: float,
+        event_position: EventPosition,
+        validity_duration: int,
+        station_type: int,
+    ) -> None:
         self.action_id = action_id
         self.detection_time = detection_time
         self.reference_time = reference_time

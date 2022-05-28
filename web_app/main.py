@@ -25,6 +25,7 @@ with open("simulation/coords/lane_2.csv") as f:
         for row in csv.DictReader(f, skipinitialspace=True)
     ]
 
+
 @app.route("/")
 def home():
     global counter
@@ -44,11 +45,15 @@ def get_coords():
     l2 = route_2[counter]
     counter = (counter + 3) % (len(route_merge))
 
-    status_merge = {"speed": 100, "status":"merging", "coords":merge}
-    status_car_1 = {"speed": 100, "status":"merging", "coords":l1}
-    status_car_2 = {"speed": 100, "status":"merging", "coords":l2}
+    status_merge = {"speed": 100, "status": "merging", "coords": merge}
+    status_car_1 = {"speed": 100, "status": "merging", "coords": l1}
+    status_car_2 = {"speed": 100, "status": "merging", "coords": l2}
 
-    all_coords = {"car_merge": status_merge, "car_1": status_car_1, "car_2": status_car_2}
+    all_coords = {
+        "car_merge": status_merge,
+        "car_1": status_car_1,
+        "car_2": status_car_2,
+    }
     return jsonify(all_coords)
 
 
