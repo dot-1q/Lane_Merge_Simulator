@@ -25,12 +25,11 @@ with open("simulation/coords/lane_2.csv") as f:
         for row in csv.DictReader(f, skipinitialspace=True)
     ]
 
-
 @app.route("/")
 def home():
     global counter
     counter = 0
-    intersection = "41.703456,-8.797550"
+    intersection = "41.703456 , -8.797550"
     return render_template("index.html", intersection_point=intersection)
 
 
