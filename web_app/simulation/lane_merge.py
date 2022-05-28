@@ -1,9 +1,6 @@
-# Authors: Tiago Dias   NMEC: 88896
-#          Martim Neves NMEC: 88904
-
 import paho.mqtt.client as mqttClient
 import time
-from cam import *
+from messages.cam import CAM,SpecialVehicle,PublicTransportContainer
 
 # Global variables
 id = "Lane Merge"
@@ -32,7 +29,7 @@ def publish(client):
         # TODO -> in the toString method of CAM class the boolean values (True and False)
         # should be changes to lower case letters, like "true" and "false"
         # otherwise vanetza will no be capable to understand the syntax
-        #msg = cam(True, 0, 800001, 15, True, True, True, 1023, "FORWARD", True, False, 3601, 127,
+        msg = CAM(True, 0, 800001, 15, True, True, True, 1023, "FORWARD", True, False, 3601, 127,
                   400000000, 100, -80000000, 4095, 3601, 4095, 
                   SpecialVehicle(PublicTransportContainer(False)), 16383, 127, True, 1, 15, 30, 0)
 
@@ -91,8 +88,8 @@ def subscribe(client):
 # To run the main methods of the mqttClient
 def run():
     client = connect_mqtt()
-    #publish(client)
-    subscribe(client)
+    publish(client)
+    #subscribe(client)
     client.loop_forever()
 
 # ------------------------------------------ Main Function ---------------------------------------- 

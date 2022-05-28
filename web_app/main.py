@@ -9,7 +9,7 @@ global route_1
 global route_2
 counter = 0
 
-with open('simulation/coords/merging_lane.csv') as f:
+with open('simulation/coords/merge_lane.csv') as f:
     route_merge = [{k: (v) for k, v in row.items()}
         for row in csv.DictReader(f, skipinitialspace=True)]
 with open('simulation/coords/lane_1.csv') as f:
@@ -21,6 +21,8 @@ with open('simulation/coords/lane_2.csv') as f:
 
 @app.route("/")
 def home():
+    global counter 
+    counter = 0
     return render_template("index.html")
     
 @app.route("/get_coords", methods=['GET','POST'])
@@ -32,8 +34,8 @@ def get_coords():
     merge = route_merge[counter]
     l1 = route_1[counter]
     l2 = route_2[counter]
-    counter = (counter +1)%(len(route_2))
-    all_coords = {"car1":merge,"car2":l1, "car3": l2}
+    counter = (counter +3)%(len(route_merge))
+    all_coords = {"car_merge":merge,"car_1":l1, "car_2": l2}
     return jsonify(all_coords)
 
 if __name__ == "__main__":

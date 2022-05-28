@@ -9,7 +9,7 @@
 
 
    <script>
-       var marker_road, marker_merger, marker2_road
+       var car_1, car_2, car_merge
   function loadMap() {
     // create the map
     map = new google.maps.Map(document.getElementById("map"), {
@@ -27,28 +27,8 @@
             title: "RSU",
             map: map,
         });
-            marker_road = new google.maps.Marker({
-            position: new google.maps.LatLng(41.703967, -8.797882),
-            icon: {
-                url: 'static/car.png',
-                scaledSize: new google.maps.Size(26, 26),
-                anchor: new google.maps.Point(7, 13),
-            },
-            title: "OBU",
-            map: map,
-        });
-            marker2_road = new google.maps.Marker({
-            position: new google.maps.LatLng(41.703771, -8.797723),
-            icon: {
-                url: 'static/car.png',
-                scaledSize: new google.maps.Size(26, 26),
-                anchor: new google.maps.Point(7, 13),
-            },
-            title: "OBU",
-            map: map,
-        });
-            marker_merger = new google.maps.Marker({
-            position: new google.maps.LatLng(41.704029, -8.798800),
+            car_1 = new google.maps.Marker({
+            position: new google.maps.LatLng(41.704683,-8.79842),
             icon: {
                 url: 'static/car.png',
                 scaledSize: new google.maps.Size(26, 26),
@@ -57,12 +37,22 @@
             title: "OBU",
             map: map,
         });
-            const marker3_road = new google.maps.Marker({
-            position: new google.maps.LatLng(41.703594, -8.797601),
+            car_2 = new google.maps.Marker({
+            position: new google.maps.LatLng(41.70471,-8.798368),
             icon: {
                 url: 'static/car.png',
                 scaledSize: new google.maps.Size(26, 26),
-                anchor: new google.maps.Point(7, 13),
+                anchor: new google.maps.Point(0, 13),
+            },
+            title: "OBU",
+            map: map,
+        });
+            car_merge = new google.maps.Marker({
+            position: new google.maps.LatLng(41.704013,-8.798942),
+            icon: {
+                url: 'static/car.png',
+                scaledSize: new google.maps.Size(26, 26),
+                anchor: new google.maps.Point(0, 13),
             },
             title: "OBU",
             map: map,
@@ -74,12 +64,12 @@
 
     function updateMarker() {
         $.get('/get_coords',{}, function(json) {
-        var LatLng1 = new google.maps.LatLng(json.car1.lat, json.car1.lon);
-        var LatLng2 = new google.maps.LatLng(json.car2.lat, json.car2.lon);
-        var LatLng3 = new google.maps.LatLng(json.car3.lat, json.car3.lon);
-        marker_merger.setPosition(LatLng1);
-        marker_road.setPosition(LatLng2);
-        marker2_road.setPosition(LatLng3);
+        var LatLng1 = new google.maps.LatLng(json.car_merge.lat, json.car_merge.lon);
+        var LatLng2 = new google.maps.LatLng(json.car_1.lat, json.car_1.lon);
+        var LatLng3 = new google.maps.LatLng(json.car_2.lat, json.car_2.lon);
+        car_merge.setPosition(LatLng1);
+        car_1.setPosition(LatLng2);
+        car_2.setPosition(LatLng3);
     });
 }
    </script>
