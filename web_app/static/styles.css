@@ -1,0 +1,117 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+  float: left;
+  width: 20%;
+  background:white;
+  padding: 1px;
+}
+
+article {
+  float: left;
+  padding-left: 5px;
+  width: 80%;
+  background-color: #f1f1f1;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.header {
+  overflow: hidden;
+  background-color:white;
+}
+
+.header h1 {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  font-size: 25px; 
+  margin: 10px;
+}
+
+.header-right {
+  float: right;
+}
+
+@media screen and (max-width: 500px) {
+  .header h1 {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .header-right {
+    float: none;
+  }
+}
+
+.split {
+    position:fixed;
+    overflow-x: hidden;
+}
+
+.left {
+    width: 20%;
+    background-color: white;
+    z-index: -1;
+}
+
+.left h1{
+    color: rgb(43, 42, 42);
+    text-align: center;
+}
+
+.left h3{
+    color: black;
+    text-align: center;
+    font-weight: bold;
+}
+
+.left hr{
+    width: 85%; 
+    border: 1px solid #a5a4a2;
+}
+
+.info {
+    text-align: left;
+    margin-left: 10%;
+}
+
+.left h4{
+    color: rgb(102, 101, 101);
+    text-align: center;
+}
+
+.label i{
+    color: rgb(82, 80, 80);
+}
+
+.label p {
+    color: rgb(110, 109, 109);
+    font-weight: lighter;
+}
+
+.label ul {
+  margin: 10px;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.top_info p{
+  display: inline;
+}

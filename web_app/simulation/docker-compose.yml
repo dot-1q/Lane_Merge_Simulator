@@ -10,8 +10,8 @@ services:
             - VANETZA_STATION_TYPE=15
             - VANETZA_MAC_ADDRESS=6e:06:e0:03:00:01
             - VANETZA_INTERFACE=br0
-            - START_EMBEDDED_MOSQUITTO=true
             - SUPPORT_MAC_BLOCKING=true
+            - START_EMBEDDED_MOSQUITTO=true
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.254
@@ -28,8 +28,8 @@ services:
             - VANETZA_STATION_TYPE=5
             - VANETZA_MAC_ADDRESS=6e:06:e0:03:00:02
             - VANETZA_INTERFACE=br0
-            - START_EMBEDDED_MOSQUITTO=true
             - SUPPORT_MAC_BLOCKING=true
+            - START_EMBEDDED_MOSQUITTO=true
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.10
@@ -42,12 +42,12 @@ services:
         cap_add:
             - "NET_ADMIN"
         environment:
-            - VANETZA_STATION_ID=2
+            - VANETZA_STATION_ID=3
             - VANETZA_STATION_TYPE=5
-            - VANETZA_MAC_ADDRESS=6e:06:e0:03:00:02
+            - VANETZA_MAC_ADDRESS=6e:06:e0:03:00:03
             - VANETZA_INTERFACE=br0
-            - START_EMBEDDED_MOSQUITTO=true
             - SUPPORT_MAC_BLOCKING=true
+            - START_EMBEDDED_MOSQUITTO=true
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.11
@@ -60,12 +60,12 @@ services:
         cap_add:
             - "NET_ADMIN"
         environment:
-            - VANETZA_STATION_ID=2
+            - VANETZA_STATION_ID=4
             - VANETZA_STATION_TYPE=5
-            - VANETZA_MAC_ADDRESS=6e:06:e0:03:00:02
+            - VANETZA_MAC_ADDRESS=6e:06:e0:03:00:04
             - VANETZA_INTERFACE=br0
-            - START_EMBEDDED_MOSQUITTO=true
             - SUPPORT_MAC_BLOCKING=true
+            - START_EMBEDDED_MOSQUITTO=true
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.12

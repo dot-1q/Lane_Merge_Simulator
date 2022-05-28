@@ -4,7 +4,7 @@ from messages.cam import CAM,SpecialVehicle,PublicTransportContainer
 
 # Global variables
 id = "Lane Merge"
-rsu_ip = "192.168.98.10"
+rsu_ip = "192.168.98.254"
 subscribe_topic = "vanetza/out/cam"
 publish_topic = "vanetza/in/cam"
 
