@@ -7,6 +7,7 @@
 #     result = denm_from_dict(json.loads(json_string))
 
 from typing import Any, TypeVar, Type, cast
+from enum import Enum
 
 T = TypeVar("T")
 
@@ -30,6 +31,19 @@ def to_class(c: Type[T], x: Any) -> dict:
     assert isinstance(x, c)
     return cast(Any, x).to_dict()
 
+class CauseCode(Enum):
+    MergeEvent = 31
+    Breaking = 32
+    SpeedingUp = 33
+    MaintainingVelocity = 34
+
+
+class SubCauseCode(Enum):
+    MergeRequest = 31
+    StartMerge = 32
+    FinishedMerge = 33
+    MergeDenied = 34
+    NotInvolved = 35
 
 class ActionID:
     originating_station_id: int

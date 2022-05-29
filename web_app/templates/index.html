@@ -68,25 +68,25 @@
 
         function updateMarker() {
             $.get('/get_status', {}, function (json) {
-                var LatLng1 = new google.maps.LatLng(json.car_merge.coords.lat, json.car_merge.coords.lon);
-                var LatLng2 = new google.maps.LatLng(json.car_1.coords.lat, json.car_1.coords.lon);
-                var LatLng3 = new google.maps.LatLng(json.car_2.coords.lat, json.car_2.coords.lon);
+                var LatLng1 = new google.maps.LatLng(json.car_merge.coords[0], json.car_merge.coords[1]);
+                var LatLng2 = new google.maps.LatLng(json.car_1.coords[0], json.car_1.coords[1]);
+                var LatLng3 = new google.maps.LatLng(json.car_2.coords[0], json.car_2.coords[1]);
                 car_merge.setPosition(LatLng1);
                 car_1.setPosition(LatLng2);
                 car_2.setPosition(LatLng3);
 
                 // Update Coords
-                document.getElementById('car_1_coords').innerText = json.car_1.coords.lat + " , " + json.car_1.coords.lon;
-                document.getElementById('car_2_coords').innerText = json.car_2.coords.lat + " , " + json.car_2.coords.lon;
-                document.getElementById('car_merge_coords').innerText = json.car_merge.coords.lat + " , " + json.car_merge.coords.lon;
+                document.getElementById('car_1_coords').innerText = json.car_1.coords[0]+ " , " + json.car_1.coords[1];
+                document.getElementById('car_2_coords').innerText = json.car_2.coords[0] + " , " + json.car_2.coords[1];
+                document.getElementById('car_merge_coords').innerText = json.car_merge.coords[0] + " , " + json.car_merge.coords[1];
                 // Update Speed 
                 document.getElementById('car_1_speed').innerText = json.car_1.speed + " km/h";
                 document.getElementById('car_2_speed').innerText = json.car_2.speed + " km/h";
                 document.getElementById('car_merge_speed').innerText = json.car_merge.speed + " km/h";
                 // Update Status 
-                document.getElementById('car_1_state').innerText = json.car_1.status;
-                document.getElementById('car_2_state').innerText = json.car_2.status;
-                document.getElementById('car_merge_state').innerText = json.car_merge.status;
+                document.getElementById('car_1_state').innerText = json.car_1.state;
+                document.getElementById('car_2_state').innerText = json.car_2.state;
+                document.getElementById('car_merge_state').innerText = json.car_merge.state;
             });
         }
     </script>
