@@ -24,6 +24,16 @@ def from_str(x: Any) -> str:
     return x
 
 
+def from_float(x: Any) -> float:
+    assert isinstance(x, (float, int)) and not isinstance(x, bool)
+    return float(x)
+
+
+def to_float(x: Any) -> float:
+    assert isinstance(x, float)
+    return x
+
+
 class PublicTransportContainer:
     embarkation_status: bool
 
@@ -31,7 +41,7 @@ class PublicTransportContainer:
         self.embarkation_status = embarkation_status
 
     @staticmethod
-    def from_dict(obj: Any) -> 'PublicTransportContainer':
+    def from_dict(obj: Any) -> "PublicTransportContainer":
         assert isinstance(obj, dict)
         embarkation_status = from_bool(obj.get("embarkationStatus"))
         return PublicTransportContainer(embarkation_status)
@@ -49,14 +59,18 @@ class SpecialVehicle:
         self.public_transport_container = public_transport_container
 
     @staticmethod
-    def from_dict(obj: Any) -> 'SpecialVehicle':
+    def from_dict(obj: Any) -> "SpecialVehicle":
         assert isinstance(obj, dict)
-        public_transport_container = PublicTransportContainer.from_dict(obj.get("publicTransportContainer"))
+        public_transport_container = PublicTransportContainer.from_dict(
+            obj.get("publicTransportContainer")
+        )
         return SpecialVehicle(public_transport_container)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["publicTransportContainer"] = to_class(PublicTransportContainer, self.public_transport_container)
+        result["publicTransportContainer"] = to_class(
+            PublicTransportContainer, self.public_transport_container
+        )
         return result
 
 
@@ -74,9 +88,9 @@ class CAM:
     gas_pedal: bool
     heading: int
     heading_conf: int
-    latitude: int
+    latitude: float
     length: int
-    longitude: int
+    longitude: float
     semi_major_conf: int
     semi_major_orient: int
     semi_minor_conf: int
@@ -89,7 +103,36 @@ class CAM:
     width: int
     yaw_rate: int
 
-    def __init__(self, acc_engaged: bool, acceleration: int, altitude: int, altitude_conf: int, brake_pedal: bool, collision_warning: bool, cruise_control: bool, curvature: int, drive_direction: str, emergency_brake: bool, gas_pedal: bool, heading: int, heading_conf: int, latitude: int, length: int, longitude: int, semi_major_conf: int, semi_major_orient: int, semi_minor_conf: int, special_vehicle: SpecialVehicle, speed: int, speed_conf: int, speed_limiter: bool, station_id: int, station_type: int, width: int, yaw_rate: int) -> None:
+    def __init__(
+        self,
+        acc_engaged: bool,
+        acceleration: int,
+        altitude: int,
+        altitude_conf: int,
+        brake_pedal: bool,
+        collision_warning: bool,
+        cruise_control: bool,
+        curvature: int,
+        drive_direction: str,
+        emergency_brake: bool,
+        gas_pedal: bool,
+        heading: int,
+        heading_conf: int,
+        latitude: float,
+        length: int,
+        longitude: float,
+        semi_major_conf: int,
+        semi_major_orient: int,
+        semi_minor_conf: int,
+        special_vehicle: SpecialVehicle,
+        speed: int,
+        speed_conf: int,
+        speed_limiter: bool,
+        station_id: int,
+        station_type: int,
+        width: int,
+        yaw_rate: int,
+    ) -> None:
         self.acc_engaged = acc_engaged
         self.acceleration = acceleration
         self.altitude = altitude
@@ -119,7 +162,7 @@ class CAM:
         self.yaw_rate = yaw_rate
 
     @staticmethod
-    def from_dict(obj: Any) -> 'CAM':
+    def from_dict(obj: Any) -> "CAM":
         assert isinstance(obj, dict)
         acc_engaged = from_bool(obj.get("accEngaged"))
         acceleration = from_int(obj.get("acceleration"))
@@ -134,9 +177,9 @@ class CAM:
         gas_pedal = from_bool(obj.get("gasPedal"))
         heading = from_int(obj.get("heading"))
         heading_conf = from_int(obj.get("headingConf"))
-        latitude = from_int(obj.get("latitude"))
+        latitude = from_float(obj.get("latitude"))
         length = from_int(obj.get("length"))
-        longitude = from_int(obj.get("longitude"))
+        longitude = from_float(obj.get("longitude"))
         semi_major_conf = from_int(obj.get("semiMajorConf"))
         semi_major_orient = from_int(obj.get("semiMajorOrient"))
         semi_minor_conf = from_int(obj.get("semiMinorConf"))
@@ -148,7 +191,35 @@ class CAM:
         station_type = from_int(obj.get("stationType"))
         width = from_int(obj.get("width"))
         yaw_rate = from_int(obj.get("yawRate"))
-        return CAM(acc_engaged, acceleration, altitude, altitude_conf, brake_pedal, collision_warning, cruise_control, curvature, drive_direction, emergency_brake, gas_pedal, heading, heading_conf, latitude, length, longitude, semi_major_conf, semi_major_orient, semi_minor_conf, special_vehicle, speed, speed_conf, speed_limiter, station_id, station_type, width, yaw_rate)
+        return CAM(
+            acc_engaged,
+            acceleration,
+            altitude,
+            altitude_conf,
+            brake_pedal,
+            collision_warning,
+            cruise_control,
+            curvature,
+            drive_direction,
+            emergency_brake,
+            gas_pedal,
+            heading,
+            heading_conf,
+            latitude,
+            length,
+            longitude,
+            semi_major_conf,
+            semi_major_orient,
+            semi_minor_conf,
+            special_vehicle,
+            speed,
+            speed_conf,
+            speed_limiter,
+            station_id,
+            station_type,
+            width,
+            yaw_rate,
+        )
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -165,9 +236,9 @@ class CAM:
         result["gasPedal"] = from_bool(self.gas_pedal)
         result["heading"] = from_int(self.heading)
         result["headingConf"] = from_int(self.heading_conf)
-        result["latitude"] = from_int(self.latitude)
+        result["latitude"] = to_float(self.latitude)
         result["length"] = from_int(self.length)
-        result["longitude"] = from_int(self.longitude)
+        result["longitude"] = to_float(self.longitude)
         result["semiMajorConf"] = from_int(self.semi_major_conf)
         result["semiMajorOrient"] = from_int(self.semi_major_orient)
         result["semiMinorConf"] = from_int(self.semi_minor_conf)
@@ -184,3 +255,7 @@ class CAM:
 
 def cam_from_dict(s: Any) -> CAM:
     return CAM.from_dict(s)
+
+
+def cam_to_dict(x: CAM) -> Any:
+    return to_class(CAM, x)

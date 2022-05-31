@@ -64,7 +64,7 @@
         }
 
         // every 10 seconds
-        setInterval(updateMarker, 100);
+        setInterval(updateMarker, {{ refresh_rate }});
 
         function updateMarker() {
             $.get('/get_status', {}, function (json) {
@@ -76,7 +76,7 @@
                 car_2.setPosition(LatLng3);
 
                 // Update Coords
-                document.getElementById('car_1_coords').innerText = json.car_1.coords[0]+ " , " + json.car_1.coords[1];
+                document.getElementById('car_1_coords').innerText = json.car_1.coords[0] + " , " + json.car_1.coords[1];
                 document.getElementById('car_2_coords').innerText = json.car_2.coords[0] + " , " + json.car_2.coords[1];
                 document.getElementById('car_merge_coords').innerText = json.car_merge.coords[0] + " , " + json.car_merge.coords[1];
                 // Update Speed 

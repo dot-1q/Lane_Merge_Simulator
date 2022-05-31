@@ -36,6 +36,7 @@ class CauseCode(Enum):
     Breaking = 32
     SpeedingUp = 33
     MaintainingVelocity = 34
+    Intersection = 35
 
 
 class SubCauseCode(Enum):

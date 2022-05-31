@@ -13,12 +13,11 @@ s = Simulation()
 
 @app.route("/")
 def home():
-    global counter
-    counter = 0
+    refresh_rate = 1000
     intersection = "41.703456 , -8.797550"
     thr = Thread(target=s.run)
     thr.start()
-    return render_template("index.html", intersection_point=intersection)
+    return render_template("index.html", intersection_point=intersection, refresh_rate=refresh_rate)
 
 
 @app.route("/get_status", methods=["GET", "POST"])
