@@ -1,5 +1,5 @@
 import os
-
+from geopy import distance
 class Route:
     def __init__(self, name):
         self.name = name
@@ -11,8 +11,28 @@ class Route:
         return self.coords[self.position]
 
     def next_coord(self,speed):
-        self.position = (self.position + 1)%self.precision
-        return self.coords[self.position]
+        #self.position = (self.position + 1)%self.precision
+        vel = self.kmh_to_ms(100)
+        dist = self.next_distance(vel, 0.5)
+        return self.coords[self.next_position(dist)]
+        #return self.coords[self.position]
+
+    def kmh_to_ms(self, speed):
+        return (speed*1000)/3600
+        
+    #fuction tp calculate how much distance a car drive from previous coords
+    #for default, refresh rate is 0,5 sec
+    #speed in m/s and time in sec
+    def next_distance(self, speed, refresh_rate):
+        return speed*refresh_rate
+
+    def next_position(self, distance):
+        for pos in range(self.position +1, len(self.coords) -1):
+            d = distance.distance(self.coords[self.position, self.coords[pos]]).km
+            d = d*1000
+            if d >= (distance-2) and d <= (distance+2):
+                valor =self.position+pos
+        return valor
 
     def prev_coord(self):
         pass
