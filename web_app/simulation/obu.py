@@ -48,7 +48,7 @@ class OBU:
     def decide_next_move(self, client, userdata, message):
         print("OBU " + str(self.id) + " recieved message")
         msg = json.loads(message.payload)
-        print(msg['latitude'])
+        #print(msg['latitude'])
 
     def generate_cam(self):
         cam_message = CAM(
