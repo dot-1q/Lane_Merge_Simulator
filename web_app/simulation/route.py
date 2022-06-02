@@ -12,15 +12,15 @@ class Route:
 
     def next_coord(self,speed):
         self.position = (self.position + 1)%self.precision
-        # vel = self.kmh_to_ms(100)
-        # dist = self.next_distance(vel, 0.5)
-        # self.position = (self.position + self.next_position(dist))
+        #vel = self.kmh_to_ms(100)
+        #dist = self.next_distance(vel, 0.5)
+        #self.position = (self.position + self.next_position(dist))%self.precision
         return self.coords[self.position]
 
     def kmh_to_ms(self, speed):
         return (speed*1000)/3600
         
-    #fuction tp calculate how much distance a car drive from previous coords
+    #method to calculate how much distance a car drive from previous coords
     #for default, refresh rate is 0,5 sec
     #speed in m/s and time in sec
     def next_distance(self, speed, refresh_rate):
@@ -31,7 +31,7 @@ class Route:
             d = GD(self.coords[self.position], self.coords[pos]).km
             #passar de km to m
             d = d*1000
-            if d >= (distance-2) and d <= (distance+2):
+            if d >= (distance) and d <= (distance):
                 valor =  pos
                 break
         return valor

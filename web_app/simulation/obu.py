@@ -1,13 +1,15 @@
+from platform import python_compiler
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 import json
 import time
+import random
 from simulation.messages.cam import CAM, PublicTransportContainer, SpecialVehicle
 from simulation.messages.denm import DENM
 
 
 class OBU:
-    def __init__(self, name, id, address, height, width, route):
+    def __init__(self, name, id, address, height, width, route, speed):
         self.name = name
         self.id = id
         self.address = address
@@ -16,7 +18,8 @@ class OBU:
         self.width = width
         self.coords = route.get_position()
         self.state = "Gathering Info"
-        self.speed = 100
+        self.speed = speed
+        print("Speed: " + str(self.speed))
         self.finished = False
 
     def set_coords(self, coords):
@@ -44,11 +47,24 @@ class OBU:
         publish.single(
             "vanetza/in/cam", json.dumps(message), hostname=self.address
         )
-
-    def decide_next_move(self, client, userdata, message):
-        print("OBU " + str(self.id) + " recieved message")
-        msg = json.loads(message.payload)
+    def decide_next_move(self):
+        #print("OBU " + str(self.id) + " recieved message")
+        #msg = json.loads(message.payload)
         #print(msg['latitude'])
+        pass
+    
+
+    def handle_message(self,client,userdata,message):
+        msg_type = message.topic
+
+        if msg_type == "vanetza/out/cam":
+            print("OBU " + str(self.id) + " recieved CAM message")
+            print(message.payload)
+        if msg_type == "vanetza/out/denm":
+            print("OBU " + str(self.id) + " recieved DENM message")
+            print(message.payload)
+
+        self.decide_next_move()
 
     def generate_cam(self):
         cam_message = CAM(
@@ -83,25 +99,20 @@ class OBU:
         return cam_message.to_dict() 
 
     def start(self):
-        denm_client = mqtt.Client(self.name)
-        denm_client.connect(self.address)
-        denm_client.on_message = self.decide_next_move
-        denm_client.loop_start()
-        denm_client.subscribe("vanetza/out/denm")
+        client = mqtt.Client(self.name)
+        client.connect(self.address)
+        client.on_message = self.handle_message
+        client.loop_start()
+        client.subscribe(topic=[("vanetza/out/denm",0),("vanetza/out/cam",0)])
 
-        cam_client = mqtt.Client(self.name)
-        cam_client.connect(self.address)
-        cam_client.on_message = self.decide_next_move
-        cam_client.loop_start()
-        cam_client.subscribe("vanetza/out/cam")
         while not self.finished:
             self.set_coords(self.route.next_coord(speed=0))
             cam_message = self.generate_cam()
             self.send_message(cam_message)
-            time.sleep(2)
+            time.sleep(0.5)
 
-        denm_client.loop_stop()
-        denm_client.disconnect()
+        client.loop_stop()
+        client.disconnect()
 
     def __repr__(self) -> str:
         return (

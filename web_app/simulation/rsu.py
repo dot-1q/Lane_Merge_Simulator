@@ -22,7 +22,7 @@ class RSU:
 
     def send_message(self, message):
         print("Sending Intersection coordinates")
-        publish.single("vanetza/in/denm",json.dumps(message.to_dict()),hostname=self.address)
+        publish.single("vanetza/in/denm",json.dumps(message),hostname=self.address)
 
 
     def start(self):
@@ -52,5 +52,5 @@ class RSU:
                 Situation(7, EventType(CauseCode.Intersection.value, 0)),
             )
 
-            self.send_message(denm_message)
+            self.send_message(denm_message.to_dict())
             time.sleep(6)
