@@ -1,4 +1,6 @@
+import math
 import os
+from xml.etree.ElementTree import tostring
 from geopy.distance import geodesic as GD
 class Route:
     def __init__(self, name):
@@ -11,10 +13,11 @@ class Route:
         return self.coords[self.position]
 
     def next_coord(self,speed):
-        self.position = (self.position + 1)%self.precision
-        #vel = self.kmh_to_ms(100)
-        #dist = self.next_distance(vel, 0.5)
-        #self.position = (self.position + self.next_position(dist))%self.precision
+        #self.position = (self.position + 1)%self.precision
+        
+        vel = self.kmh_to_ms(100)   #speed in km/h
+        dist = self.next_distance(vel, 0.5)
+        self.position = self.next_position(dist)%self.precision
         return self.coords[self.position]
 
     def kmh_to_ms(self, speed):
@@ -27,14 +30,16 @@ class Route:
         return speed*refresh_rate
 
     def next_position(self, distance):
+        distance = round(distance, 4)
+
         for pos in range(self.position +1, len(self.coords)):
             d = GD(self.coords[self.position], self.coords[pos]).km
             #passar de km to m
-            d = d*1000
-            if d >= (distance) and d <= (distance):
-                valor =  pos
-                break
-        return valor
+            d = round(d*1000, 4)
+            #melhorar esta condição, para ser mais precisa
+            if d>= distance-1 and distance <= distance+1:
+                return pos
+        
 
     def prev_coord(self):
         pass
