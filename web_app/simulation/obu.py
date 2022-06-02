@@ -106,7 +106,7 @@ class OBU:
         client.subscribe(topic=[("vanetza/out/denm",0),("vanetza/out/cam",0)])
 
         while not self.finished:
-            self.set_coords(self.route.next_coord(speed=0))
+            self.set_coords(self.route.next_coord(self.speed))
             cam_message = self.generate_cam()
             self.send_message(cam_message)
             time.sleep(0.5)
