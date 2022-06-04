@@ -32,19 +32,19 @@ def to_class(c: Type[T], x: Any) -> dict:
     return cast(Any, x).to_dict()
 
 class CauseCode(Enum):
-    MergeEvent = 31
-    Breaking = 32
-    SpeedingUp = 33
-    MaintainingVelocity = 34
-    Intersection = 35
+    merge_event = 31
+    breaking = 32
+    speeding_up = 33
+    maintaining_velocity = 34
+    intersection = 35
 
 
 class SubCauseCode(Enum):
-    MergeRequest = 31
-    StartMerge = 32
-    FinishedMerge = 33
-    MergeDenied = 34
-    NotInvolved = 35
+    merge_request = 31
+    start_merge = 32
+    finished_merge = 33
+    merge_denied = 34
+    not_involved = 35
 
 class ActionID:
     originating_station_id: int

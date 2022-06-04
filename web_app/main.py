@@ -13,7 +13,7 @@ s = Simulation()
 
 @app.route("/")
 def home():
-    refresh_rate = 1000
+    refresh_rate = 100
     intersection = "41.703456 , -8.797550"
     thr = Thread(target=s.run)
     thr.start()

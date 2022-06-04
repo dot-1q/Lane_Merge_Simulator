@@ -1,8 +1,9 @@
+from simulation.navigation import Navigation
 from simulation.obu import OBU
 from simulation.rsu import RSU
 from simulation.route import Route
 from threading import Thread
-import time
+import random
 
 
 class Simulation:
@@ -12,13 +13,14 @@ class Simulation:
 
     def run(self):
 
-        route_1 = Route("lane_1")
-        route_2 = Route("lane_2")
-        route_merge = Route("merge_lane")
+        routes = []
+        routes.append(Route("lane_1"))
+        routes.append(Route("lane_2"))
+        routes.append(Route("lane_merge"))
 
-        self.cars.append(OBU("car_1", 2, "192.168.98.10", 10, 3, route_1, 30))
-        self.cars.append(OBU("car_2", 3, "192.168.98.11", 10, 3, route_2,120))
-        self.cars.append(OBU("car_merge", 4, "192.168.98.12", 10, 3, route_merge,60))
+        self.cars.append(OBU("car_1", 2, "192.168.98.10", 10, 3, Navigation(routes,"lane_1"),random.randint(10,60)))
+        self.cars.append(OBU("car_2", 3, "192.168.98.11", 10, 3, Navigation(routes,"lane_2"), random.randint(10,60)))
+        self.cars.append(OBU("car_merge", 4, "192.168.98.12", 10, 3, Navigation(routes,"lane_merge"), random.randint(10,60)))
 
         thr_rsu = Thread(target=self.rsu.start)
         thr_rsu.start()

@@ -49,7 +49,7 @@ class RSU:
                     0,
                     15,
                 ),
-                Situation(7, EventType(CauseCode.Intersection.value, 0)),
+                Situation(7, EventType(CauseCode.intersection.value, 0)),
             )
 
             self.send_message(denm_message.to_dict())

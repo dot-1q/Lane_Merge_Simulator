@@ -15,6 +15,17 @@ services:
             - VANETZA_CAM_PERIODICITY=0
             - VANETZA_LATITUDE=41.704018
             - VANETZA_LONGITUDE=-8.798036
+            - VANETZA_BEACONS_ENABLED=false
+            - VANETZA_CPM_ENABLED=false
+            - VANETZA_VAM_ENABLED=false
+            - VANETZA_SPATEM_ENABLED=false
+            - VANETZA_MAPEM_ENABLED=false
+            - VANETZA_CAM_DDS_ENABLED=false
+            - VANETZA_DENM_DDS_ENABLED=false
+            - VANETZA_CPM_DDS_ENABLED=false
+            - VANETZA_VAM_DDS_ENABLED=false
+            - VANETZA_SPATEM_DDS_ENABLED=false
+            - VANETZA_MAPEM_DDS_ENABLED=false
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.254
@@ -34,6 +45,17 @@ services:
             - SUPPORT_MAC_BLOCKING=true
             - START_EMBEDDED_MOSQUITTO=true
             - VANETZA_CAM_PERIODICITY=0
+            - VANETZA_BEACONS_ENABLED=false
+            - VANETZA_CPM_ENABLED=false
+            - VANETZA_VAM_ENABLED=false
+            - VANETZA_SPATEM_ENABLED=false
+            - VANETZA_MAPEM_ENABLED=false
+            - VANETZA_CAM_DDS_ENABLED=false
+            - VANETZA_DENM_DDS_ENABLED=false
+            - VANETZA_CPM_DDS_ENABLED=false
+            - VANETZA_VAM_DDS_ENABLED=false
+            - VANETZA_SPATEM_DDS_ENABLED=false
+            - VANETZA_MAPEM_DDS_ENABLED=false
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.10
@@ -53,6 +75,17 @@ services:
             - SUPPORT_MAC_BLOCKING=true
             - START_EMBEDDED_MOSQUITTO=true
             - VANETZA_CAM_PERIODICITY=0
+            - VANETZA_BEACONS_ENABLED=false
+            - VANETZA_CPM_ENABLED=false
+            - VANETZA_VAM_ENABLED=false
+            - VANETZA_SPATEM_ENABLED=false
+            - VANETZA_MAPEM_ENABLED=false
+            - VANETZA_CAM_DDS_ENABLED=false
+            - VANETZA_DENM_DDS_ENABLED=false
+            - VANETZA_CPM_DDS_ENABLED=false
+            - VANETZA_VAM_DDS_ENABLED=false
+            - VANETZA_SPATEM_DDS_ENABLED=false
+            - VANETZA_MAPEM_DDS_ENABLED=false
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.11
@@ -72,6 +105,17 @@ services:
             - SUPPORT_MAC_BLOCKING=true
             - START_EMBEDDED_MOSQUITTO=true
             - VANETZA_CAM_PERIODICITY=0
+            - VANETZA_BEACONS_ENABLED=false
+            - VANETZA_CPM_ENABLED=false
+            - VANETZA_VAM_ENABLED=false
+            - VANETZA_SPATEM_ENABLED=false
+            - VANETZA_MAPEM_ENABLED=false
+            - VANETZA_CAM_DDS_ENABLED=false
+            - VANETZA_DENM_DDS_ENABLED=false
+            - VANETZA_CPM_DDS_ENABLED=false
+            - VANETZA_VAM_DDS_ENABLED=false
+            - VANETZA_SPATEM_DDS_ENABLED=false
+            - VANETZA_MAPEM_DDS_ENABLED=false
         networks:
             vanetzalan0:
                 ipv4_address: 192.168.98.12
