@@ -4,6 +4,7 @@ import os
 import paho.mqtt.publish as publish
 from simulation.messages.denm import *
 
+
 class RSU:
     def __init__(self, name, id, address, width, height, coords):
         self.name = name
@@ -22,17 +23,16 @@ class RSU:
 
     def send_message(self, message):
         print("Sending Intersection coordinates")
-        publish.single("vanetza/in/denm",json.dumps(message),hostname=self.address)
-
+        publish.single("vanetza/in/denm", json.dumps(message), hostname=self.address)
 
     def start(self):
         print("RSU started")
         print(self.coords[0])
         print(self.coords[1])
         dir = os.path.dirname(__file__)
-        filename = os.path.join(dir,'coordinates','intersection.csv')
+        filename = os.path.join(dir, 'coordinates', 'intersection.csv')
         with open(filename) as f:
-            inter_coords = [(float(line[0]),float(line[1])) for line in [lines.split(',') for lines in f][1:]]
+            inter_coords = [(float(line[0]), float(line[1])) for line in [lines.split(',') for lines in f][1:]]
 
         while not self.finished:
             denm_message = DENM(
@@ -53,4 +53,4 @@ class RSU:
             )
 
             self.send_message(denm_message.to_dict())
-            time.sleep(6)
+            time.sleep(1)

@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 import json
 import time
-import random
+from geopy.distance import geodesic as GD
 from simulation.messages.cam import CAM, PublicTransportContainer, SpecialVehicle
 from simulation.messages.denm import *
 
@@ -87,6 +87,11 @@ class OBU:
                 print("Check if intersection point is in own route")
                 if self.in_own_route((lat, lon)):
                     print("In my route | OBU {n}".format(n=self.id))
+
+                    # Check the distance between him and the intersection
+                    distance = GD(self.coords, (lat, lon)).m
+                    print("Distance to the intersection = {d}".format(d=distance))
+
                 else:
                     print("NOT in my route | OBU {n}".format(n=self.id))
 
