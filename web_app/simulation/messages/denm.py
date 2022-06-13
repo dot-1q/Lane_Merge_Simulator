@@ -31,6 +31,7 @@ def to_class(c: Type[T], x: Any) -> dict:
     assert isinstance(x, c)
     return cast(Any, x).to_dict()
 
+
 class CauseCode(Enum):
     merge_event = 31
     breaking = 32
@@ -46,6 +47,7 @@ class SubCauseCode(Enum):
     merge_denied = 34
     not_involved = 35
 
+
 class ActionID:
     originating_station_id: int
     sequence_number: int
@@ -55,7 +57,7 @@ class ActionID:
         self.sequence_number = sequence_number
 
     @staticmethod
-    def from_dict(obj: Any) -> 'ActionID':
+    def from_dict(obj: Any) -> "ActionID":
         assert isinstance(obj, dict)
         originating_station_id = from_int(obj.get("originatingStationID"))
         sequence_number = from_int(obj.get("sequenceNumber"))
@@ -77,7 +79,7 @@ class Altitude:
         self.altitude_confidence = altitude_confidence
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Altitude':
+    def from_dict(obj: Any) -> "Altitude":
         assert isinstance(obj, dict)
         altitude_value = from_int(obj.get("altitudeValue"))
         altitude_confidence = from_int(obj.get("altitudeConfidence"))
@@ -95,18 +97,25 @@ class PositionConfidenceEllipse:
     semi_minor_confidence: int
     semi_major_orientation: int
 
-    def __init__(self, semi_major_confidence: int, semi_minor_confidence: int, semi_major_orientation: int) -> None:
+    def __init__(
+        self,
+        semi_major_confidence: int,
+        semi_minor_confidence: int,
+        semi_major_orientation: int,
+    ) -> None:
         self.semi_major_confidence = semi_major_confidence
         self.semi_minor_confidence = semi_minor_confidence
         self.semi_major_orientation = semi_major_orientation
 
     @staticmethod
-    def from_dict(obj: Any) -> 'PositionConfidenceEllipse':
+    def from_dict(obj: Any) -> "PositionConfidenceEllipse":
         assert isinstance(obj, dict)
         semi_major_confidence = from_int(obj.get("semiMajorConfidence"))
         semi_minor_confidence = from_int(obj.get("semiMinorConfidence"))
         semi_major_orientation = from_int(obj.get("semiMajorOrientation"))
-        return PositionConfidenceEllipse(semi_major_confidence, semi_minor_confidence, semi_major_orientation)
+        return PositionConfidenceEllipse(
+            semi_major_confidence, semi_minor_confidence, semi_major_orientation
+        )
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -122,18 +131,26 @@ class EventPosition:
     position_confidence_ellipse: PositionConfidenceEllipse
     altitude: Altitude
 
-    def __init__(self, latitude: float, longitude: float, position_confidence_ellipse: PositionConfidenceEllipse, altitude: Altitude) -> None:
+    def __init__(
+        self,
+        latitude: float,
+        longitude: float,
+        position_confidence_ellipse: PositionConfidenceEllipse,
+        altitude: Altitude,
+    ) -> None:
         self.latitude = latitude
         self.longitude = longitude
         self.position_confidence_ellipse = position_confidence_ellipse
         self.altitude = altitude
 
     @staticmethod
-    def from_dict(obj: Any) -> 'EventPosition':
+    def from_dict(obj: Any) -> "EventPosition":
         assert isinstance(obj, dict)
         latitude = from_float(obj.get("latitude"))
         longitude = from_float(obj.get("longitude"))
-        position_confidence_ellipse = PositionConfidenceEllipse.from_dict(obj.get("positionConfidenceEllipse"))
+        position_confidence_ellipse = PositionConfidenceEllipse.from_dict(
+            obj.get("positionConfidenceEllipse")
+        )
         altitude = Altitude.from_dict(obj.get("altitude"))
         return EventPosition(latitude, longitude, position_confidence_ellipse, altitude)
 
@@ -141,7 +158,9 @@ class EventPosition:
         result: dict = {}
         result["latitude"] = to_float(self.latitude)
         result["longitude"] = to_float(self.longitude)
-        result["positionConfidenceEllipse"] = to_class(PositionConfidenceEllipse, self.position_confidence_ellipse)
+        result["positionConfidenceEllipse"] = to_class(
+            PositionConfidenceEllipse, self.position_confidence_ellipse
+        )
         result["altitude"] = to_class(Altitude, self.altitude)
         return result
 
@@ -154,7 +173,15 @@ class Management:
     validity_duration: int
     station_type: int
 
-    def __init__(self, action_id: ActionID, detection_time: float, reference_time: float, event_position: EventPosition, validity_duration: int, station_type: int) -> None:
+    def __init__(
+        self,
+        action_id: ActionID,
+        detection_time: float,
+        reference_time: float,
+        event_position: EventPosition,
+        validity_duration: int,
+        station_type: int,
+    ) -> None:
         self.action_id = action_id
         self.detection_time = detection_time
         self.reference_time = reference_time
@@ -163,7 +190,7 @@ class Management:
         self.station_type = station_type
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Management':
+    def from_dict(obj: Any) -> "Management":
         assert isinstance(obj, dict)
         action_id = ActionID.from_dict(obj.get("actionID"))
         detection_time = from_float(obj.get("detectionTime"))
@@ -171,7 +198,14 @@ class Management:
         event_position = EventPosition.from_dict(obj.get("eventPosition"))
         validity_duration = from_int(obj.get("validityDuration"))
         station_type = from_int(obj.get("stationType"))
-        return Management(action_id, detection_time, reference_time, event_position, validity_duration, station_type)
+        return Management(
+            action_id,
+            detection_time,
+            reference_time,
+            event_position,
+            validity_duration,
+            station_type,
+        )
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -193,7 +227,7 @@ class EventType:
         self.sub_cause_code = sub_cause_code
 
     @staticmethod
-    def from_dict(obj: Any) -> 'EventType':
+    def from_dict(obj: Any) -> "EventType":
         assert isinstance(obj, dict)
         cause_code = from_int(obj.get("causeCode"))
         sub_cause_code = from_int(obj.get("subCauseCode"))
@@ -215,7 +249,7 @@ class Situation:
         self.event_type = event_type
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Situation':
+    def from_dict(obj: Any) -> "Situation":
         assert isinstance(obj, dict)
         information_quality = from_int(obj.get("informationQuality"))
         event_type = EventType.from_dict(obj.get("eventType"))
@@ -237,7 +271,7 @@ class DENM:
         self.situation = situation
 
     @staticmethod
-    def from_dict(obj: Any) -> 'DENM':
+    def from_dict(obj: Any) -> "DENM":
         assert isinstance(obj, dict)
         management = Management.from_dict(obj.get("management"))
         situation = Situation.from_dict(obj.get("situation"))

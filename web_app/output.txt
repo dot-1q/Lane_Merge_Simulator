@@ -1,0 +1,320 @@
+ * Serving Flask app 'main' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+RSU started
+41.704018
+-8.798036
+Sending Intersection coordinates
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7045743 lon: -8.798271
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.70402 lon: -8.7988855
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.704583 lon: -8.798338
+OBU [3] Recieved CAM with lat: 41.70402 lon: -8.7988855
+OBU [4] Recieved CAM with lat: 41.7045743 lon: -8.798271
+OBU [3] Recieved CAM with lat: 41.704583 lon: -8.798338
+OBU [4] Recieved CAM with lat: 41.704583 lon: -8.798338
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7045099 lon: -8.7982235
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040235 lon: -8.7988573
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.704531 lon: -8.798305
+OBU [3] Recieved CAM with lat: 41.7040235 lon: -8.7988573
+OBU [2] Recieved CAM with lat: 41.7045099 lon: -8.7982235
+OBU [4] Recieved CAM with lat: 41.7045099 lon: -8.7982235
+OBU [2] Recieved CAM with lat: 41.7040235 lon: -8.7988573
+OBU [4] Recieved CAM with lat: 41.704531 lon: -8.7983049
+OBU [3] Recieved CAM with lat: 41.704531 lon: -8.7983049
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.704444 lon: -8.7981755
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.704027 lon: -8.798829
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.704479 lon: -8.798272
+OBU [4] Recieved CAM with lat: 41.704444 lon: -8.7981755
+OBU [2] Recieved CAM with lat: 41.704444 lon: -8.7981755
+OBU [2] Recieved CAM with lat: 41.704027 lon: -8.798829
+OBU [3] Recieved CAM with lat: 41.704027 lon: -8.798829
+OBU [4] Recieved CAM with lat: 41.704479 lon: -8.798272
+OBU [3] Recieved CAM with lat: 41.704479 lon: -8.798272
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7043773 lon: -8.7981274
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040303 lon: -8.7988005
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7044389 lon: -8.7982424
+OBU [2] Recieved CAM with lat: 41.7043773 lon: -8.7981274
+OBU [3] Recieved CAM with lat: 41.7044389 lon: -8.7982424
+OBU [4] Recieved CAM with lat: 41.7043773 lon: -8.7981274
+OBU [4] Recieved CAM with lat: 41.7044389 lon: -8.7982424
+OBU [3] Recieved CAM with lat: 41.7040303 lon: -8.7988005
+OBU [2] Recieved CAM with lat: 41.7040303 lon: -8.7988005
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7043085 lon: -8.7980793
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7043987 lon: -8.7982128
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040335 lon: -8.798772
+OBU [3] Recieved CAM with lat: 41.7040335 lon: -8.798772
+OBU [2] Recieved CAM with lat: 41.7043085 lon: -8.7980793
+OBU [2] Recieved CAM with lat: 41.7040335 lon: -8.798772
+OBU [3] Recieved CAM with lat: 41.7043987 lon: -8.7982128
+OBU [4] Recieved CAM with lat: 41.7043085 lon: -8.7980793
+OBU [4] Recieved CAM with lat: 41.7043987 lon: -8.7982128
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7042416 lon: -8.7980323
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7043581 lon: -8.7981833
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040368 lon: -8.7987435
+OBU [2] Recieved CAM with lat: 41.7042416 lon: -8.7980322
+OBU [4] Recieved CAM with lat: 41.7042416 lon: -8.7980322
+OBU [4] Recieved CAM with lat: 41.7043581 lon: -8.7981833
+OBU [3] Recieved CAM with lat: 41.7043581 lon: -8.7981833
+OBU [3] Recieved CAM with lat: 41.7040368 lon: -8.7987435
+OBU [2] Recieved CAM with lat: 41.7040368 lon: -8.7987435
+Sending Intersection coordinates
+OBU 2 recieved DENM message
+OBU 3 recieved DENM message
+OBU 4 recieved DENM message
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.70404 lon: -8.798715
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.704176 lon: -8.797986
+OBU [2] Recieved CAM with lat: 41.7041759 lon: -8.797986
+OBU [4] Recieved CAM with lat: 41.7041759 lon: -8.797986
+OBU [3] Recieved CAM with lat: 41.70404 lon: -8.798715
+OBU [2] Recieved CAM with lat: 41.70404 lon: -8.798715
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7043165 lon: -8.798154
+OBU [3] Recieved CAM with lat: 41.7043165 lon: -8.798154
+OBU [4] Recieved CAM with lat: 41.7043165 lon: -8.798154
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7041183 lon: -8.7979432
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040406 lon: -8.7987002
+OBU [2] Recieved CAM with lat: 41.7041183 lon: -8.7979432
+OBU [3] Recieved CAM with lat: 41.7040406 lon: -8.7987002
+OBU [4] Recieved CAM with lat: 41.7041183 lon: -8.7979432
+OBU [2] Recieved CAM with lat: 41.7040406 lon: -8.7987002
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7042749 lon: -8.7981247
+OBU [3] Recieved CAM with lat: 41.7042749 lon: -8.7981247
+OBU [4] Recieved CAM with lat: 41.7042749 lon: -8.7981247
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.70406 lon: -8.7979
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040413 lon: -8.7986855
+OBU [2] Recieved CAM with lat: 41.70406 lon: -8.7979
+OBU [4] Recieved CAM with lat: 41.70406 lon: -8.7979
+OBU [3] Recieved CAM with lat: 41.7040413 lon: -8.7986855
+OBU [2] Recieved CAM with lat: 41.7040413 lon: -8.7986855
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7042239 lon: -8.7980842
+OBU [3] Recieved CAM with lat: 41.7042239 lon: -8.7980842
+OBU [4] Recieved CAM with lat: 41.7042239 lon: -8.7980842
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7040025 lon: -8.7978578
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040419 lon: -8.7986707
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7041744 lon: -8.7980432
+OBU [2] Recieved CAM with lat: 41.7040419 lon: -8.7986707
+OBU [3] Recieved CAM with lat: 41.7040419 lon: -8.7986707
+OBU [2] Recieved CAM with lat: 41.7040025 lon: -8.7978577
+OBU [4] Recieved CAM with lat: 41.7040025 lon: -8.7978577
+OBU [4] Recieved CAM with lat: 41.7041744 lon: -8.7980432
+OBU [3] Recieved CAM with lat: 41.7041744 lon: -8.7980432
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040425 lon: -8.798656
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7039398 lon: -8.7978124
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7041316 lon: -8.7980139
+OBU [4] Recieved CAM with lat: 41.7041315 lon: -8.7980139
+OBU [3] Recieved CAM with lat: 41.7041315 lon: -8.7980139
+OBU [3] Recieved CAM with lat: 41.7040425 lon: -8.798656
+OBU [4] Recieved CAM with lat: 41.7039398 lon: -8.7978124
+OBU [2] Recieved CAM with lat: 41.7040425 lon: -8.798656
+OBU [2] Recieved CAM with lat: 41.7039398 lon: -8.7978124
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7040911 lon: -8.7979884
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040431 lon: -8.7986412
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7038806 lon: -8.7977669
+OBU [2] Recieved CAM with lat: 41.7040431 lon: -8.7986412
+OBU [2] Recieved CAM with lat: 41.7038806 lon: -8.7977668
+OBU [3] Recieved CAM with lat: 41.7040431 lon: -8.7986412
+OBU [3] Recieved CAM with lat: 41.7040911 lon: -8.7979884
+OBU [4] Recieved CAM with lat: 41.7040911 lon: -8.7979884
+OBU [4] Recieved CAM with lat: 41.7038806 lon: -8.7977668
+Sending Intersection coordinates
+OBU 3 recieved DENM message
+OBU 4 recieved DENM message
+OBU 2 recieved DENM message
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040437 lon: -8.7986265
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.703822 lon: -8.797724
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7040518 lon: -8.7979595
+OBU [3] Recieved CAM with lat: 41.7040437 lon: -8.7986264
+OBU [2] Recieved CAM with lat: 41.7040437 lon: -8.7986264
+OBU [3] Recieved CAM with lat: 41.7040518 lon: -8.7979595
+OBU [2] Recieved CAM with lat: 41.703822 lon: -8.797724
+OBU [4] Recieved CAM with lat: 41.703822 lon: -8.797724
+OBU [4] Recieved CAM with lat: 41.7040518 lon: -8.7979595
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7037669 lon: -8.7976785
+OBU [2] Recieved CAM with lat: 41.7040444 lon: -8.7986117
+OBU [4] Recieved CAM with lat: 41.7037669 lon: -8.7976785
+OBU [2] Recieved CAM with lat: 41.7037669 lon: -8.7976785
+OBU [4] Recieved CAM with lat: 41.7040128 lon: -8.7979295
+OBU [3] Recieved CAM with lat: 41.7040444 lon: -8.7986117
+OBU [3] Recieved CAM with lat: 41.7040128 lon: -8.7979295
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.704045 lon: -8.798597
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.703967 lon: -8.797896
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7037028 lon: -8.7976285
+OBU [3] Recieved CAM with lat: 41.704045 lon: -8.7985969
+OBU [2] Recieved CAM with lat: 41.704045 lon: -8.7985969
+OBU [4] Recieved CAM with lat: 41.703967 lon: -8.797896
+OBU [3] Recieved CAM with lat: 41.703967 lon: -8.797896
+OBU [2] Recieved CAM with lat: 41.7037028 lon: -8.7976285
+OBU [4] Recieved CAM with lat: 41.7037028 lon: -8.7976285
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040448 lon: -8.7985695
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7039235 lon: -8.7978635
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7036459 lon: -8.7975859
+OBU [4] Recieved CAM with lat: 41.7039235 lon: -8.7978635
+OBU [3] Recieved CAM with lat: 41.7039235 lon: -8.7978635
+OBU [3] Recieved CAM with lat: 41.7040448 lon: -8.7985695
+OBU [2] Recieved CAM with lat: 41.7040448 lon: -8.7985695
+OBU [2] Recieved CAM with lat: 41.7036459 lon: -8.7975859
+OBU [4] Recieved CAM with lat: 41.7036459 lon: -8.7975859
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7038785 lon: -8.7978245
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040445 lon: -8.798542
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7035861 lon: -8.7975396
+OBU [4] Recieved CAM with lat: 41.7038785 lon: -8.7978245
+OBU [4] Recieved CAM with lat: 41.7035861 lon: -8.7975396
+OBU [2] Recieved CAM with lat: 41.7040445 lon: -8.798542
+OBU [3] Recieved CAM with lat: 41.7040445 lon: -8.798542
+OBU [3] Recieved CAM with lat: 41.7038785 lon: -8.7978245
+OBU [2] Recieved CAM with lat: 41.7035861 lon: -8.7975396
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7038375 lon: -8.797796
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.7040443 lon: -8.7985145
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7035284 lon: -8.7975001
+OBU [4] Recieved CAM with lat: 41.7038375 lon: -8.797796
+OBU [3] Recieved CAM with lat: 41.7040443 lon: -8.7985145
+OBU [3] Recieved CAM with lat: 41.7038375 lon: -8.797796
+OBU [2] Recieved CAM with lat: 41.7040443 lon: -8.7985145
+OBU [4] Recieved CAM with lat: 41.7035284 lon: -8.7975001
+OBU [2] Recieved CAM with lat: 41.7035284 lon: -8.7975001
+Sending Intersection coordinates
+OBU 2 recieved DENM message
+OBU 3 recieved DENM message
+OBU 4 recieved DENM message
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7037961 lon: -8.7977675
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.704044 lon: -8.798487
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7034714 lon: -8.797452
+OBU [4] Recieved CAM with lat: 41.7037961 lon: -8.7977675
+OBU [2] Recieved CAM with lat: 41.704044 lon: -8.798487
+OBU [3] Recieved CAM with lat: 41.7037961 lon: -8.7977675
+OBU [4] Recieved CAM with lat: 41.7034714 lon: -8.797452
+OBU [3] Recieved CAM with lat: 41.704044 lon: -8.798487
+OBU [2] Recieved CAM with lat: 41.7034714 lon: -8.797452
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7037567 lon: -8.797735
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.704042 lon: -8.7984706
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7034106 lon: -8.7973972
+OBU [3] Recieved CAM with lat: 41.704042 lon: -8.7984706
+OBU [2] Recieved CAM with lat: 41.7034106 lon: -8.7973972
+OBU [2] Recieved CAM with lat: 41.704042 lon: -8.7984706
+OBU [3] Recieved CAM with lat: 41.7037567 lon: -8.797735
+OBU [4] Recieved CAM with lat: 41.7034106 lon: -8.7973972
+OBU [4] Recieved CAM with lat: 41.7037567 lon: -8.797735
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7033501 lon: -8.7973476
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7037144 lon: -8.7977032
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.70404 lon: -8.7984542
+OBU [2] Recieved CAM with lat: 41.7033501 lon: -8.7973476
+OBU [3] Recieved CAM with lat: 41.70404 lon: -8.7984542
+OBU [2] Recieved CAM with lat: 41.70404 lon: -8.7984542
+OBU [4] Recieved CAM with lat: 41.7033501 lon: -8.7973476
+OBU [3] Recieved CAM with lat: 41.7037144 lon: -8.7977032
+OBU [4] Recieved CAM with lat: 41.7037144 lon: -8.7977032
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.70367 lon: -8.797672
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.704038 lon: -8.7984379
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7032897 lon: -8.7972985
+OBU [4] Recieved CAM with lat: 41.70367 lon: -8.797672
+OBU [2] Recieved CAM with lat: 41.704038 lon: -8.7984379
+OBU [4] Recieved CAM with lat: 41.7032897 lon: -8.7972985
+OBU [2] Recieved CAM with lat: 41.7032897 lon: -8.7972985
+OBU [3] Recieved CAM with lat: 41.70367 lon: -8.797672
+OBU [3] Recieved CAM with lat: 41.704038 lon: -8.7984379
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7036306 lon: -8.7976426
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.704036 lon: -8.7984215
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7032267 lon: -8.7972452
+OBU [3] Recieved CAM with lat: 41.7036305 lon: -8.7976426
+OBU [4] Recieved CAM with lat: 41.7036305 lon: -8.7976426
+OBU [2] Recieved CAM with lat: 41.704036 lon: -8.7984215
+OBU [3] Recieved CAM with lat: 41.704036 lon: -8.7984215
+OBU [4] Recieved CAM with lat: 41.7032267 lon: -8.7972452
+OBU [2] Recieved CAM with lat: 41.7032267 lon: -8.7972452
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7035849 lon: -8.7976066
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7031672 lon: -8.7971943
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.704034 lon: -8.7984051
+OBU [4] Recieved CAM with lat: 41.7035849 lon: -8.7976066
+OBU [3] Recieved CAM with lat: 41.704034 lon: -8.7984051
+OBU [4] Recieved CAM with lat: 41.7031672 lon: -8.7971942
+OBU [2] Recieved CAM with lat: 41.704034 lon: -8.7984051
+OBU [2] Recieved CAM with lat: 41.7031672 lon: -8.7971942
+OBU [3] Recieved CAM with lat: 41.7035849 lon: -8.7976066
+Sending Intersection coordinates
+OBU 4 recieved DENM message
+OBU 2 recieved DENM message
+OBU 3 recieved DENM message
+-------------- New TICK from OBU[4]
+OBU [4] sent cam with lat: 41.704032 lon: -8.7983888
+-------------- New TICK from OBU[2]
+OBU [2] sent cam with lat: 41.7035404 lon: -8.7975704
+-------------- New TICK from OBU[3]
+OBU [3] sent cam with lat: 41.7031117 lon: -8.7971467
+OBU [2] Recieved CAM with lat: 41.704032 lon: -8.7983888
+OBU [4] Recieved CAM with lat: 41.7031117 lon: -8.7971467
+OBU [2] Recieved CAM with lat: 41.7031117 lon: -8.7971467
+OBU [3] Recieved CAM with lat: 41.704032 lon: -8.7983888
+OBU [3] Recieved CAM with lat: 41.7035404 lon: -8.7975704
+OBU [4] Recieved CAM with lat: 41.7035404 lon: -8.7975704
+                °ø-¼u  ç1£ƒ†ú                                0«B½u  ê…#~Úèå,àõ8½u  ëYQš6}D–0•B½u  êûŒVôÕÂì0íA½u  ê¡°Ûä°pB;½u  íW"š’Ç{°Ê-¼u  îg*ÙNXSK@Ê-¼u  ëWLBÔ&ÿ    

@@ -18,19 +18,22 @@ class Simulation:
         routes.append(Route("lane_2"))
         routes.append(Route("lane_merge"))
 
-        self.cars.append(OBU("car_1", 2, "192.168.98.10", 10, 3, Navigation(routes,"lane_1"),random.randint(10,60)))
-        self.cars.append(OBU("car_2", 3, "192.168.98.11", 10, 3, Navigation(routes,"lane_2"), random.randint(10,60)))
-        self.cars.append(OBU("car_merge", 4, "192.168.98.12", 10, 3, Navigation(routes,"lane_merge"), random.randint(10,60)))
+        self.cars.append(OBU("car_merge", 4, "192.168.98.12", 10, 3, Navigation(routes, "lane_merge"), 57))
+        self.cars.append(OBU("car_1", 2, "192.168.98.10", 10, 3, Navigation(routes, "lane_1"), 60))
+        self.cars.append(OBU("car_2", 3, "192.168.98.11", 10, 3, Navigation(routes, "lane_2"), random.randint(10, 60)))
 
         thr_rsu = Thread(target=self.rsu.start)
         thr_rsu.start()
 
-        thr_cars=[]
-        for i in range(0,len(self.cars)):
+        thr_cars = []
+        for i in range(0, len(self.cars)):
             thr = Thread(target=self.cars[i].start)
             thr_cars.append(thr)
             thr.start()
 
+        for thr in thr_cars:
+            thr.join()
+        thr_rsu.join()
 
     def get_status(self):
         status = {}

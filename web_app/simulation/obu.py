@@ -39,24 +39,56 @@ class OBU:
     def decelerate(self):
         pass
 
+    def get_distance(self):
+        pass
+
     def send_message(self, topic, message):
         publish.single(topic, json.dumps(message), hostname=self.address)
 
     def decide_next_move(self):
-        # print("OBU " + str(self.id) + " recieved message")
-        # msg = json.loads(message.payload)
-        # print(msg['latitude'])
         pass
+
+    def in_own_route(self, coordinates):
+        if coordinates in self.navigation.current_route.coords:
+            return True
+        else:
+            return False
 
     def handle_message(self, client, userdata, message):
         msg_type = message.topic
+        message = json.loads(message.payload)
 
         if msg_type == "vanetza/out/cam":
-            print("OBU " + str(self.id) + " recieved CAM message")
-            # print(message.payload)
+            print("OBU [" + str(self.id) + "] Recieved CAM with lat: " + str(message['latitude']) + " lon: " + str(message['longitude']))
+
         if msg_type == "vanetza/out/denm":
             print("OBU " + str(self.id) + " recieved DENM message")
-            # print(message.payload)
+            cause_code = message["fields"]["denm"]["situation"]["eventType"]["causeCode"]
+            sub_cause_code = message["fields"]["denm"]["situation"]["eventType"]["subCauseCode"]
+
+            # Check from cause code and sub cause code what type of situation it is
+            if cause_code == 31:
+                pass
+
+            elif cause_code == 32:
+                pass
+
+            elif cause_code == 33:
+                pass
+
+            elif cause_code == 34:
+                pass
+
+            elif cause_code == 35:
+                lat = message["fields"]["denm"]["management"]["eventPosition"]["latitude"]
+                lon = message["fields"]["denm"]["management"]["eventPosition"]["longitude"]
+
+                # it's an intersection denm
+                print("Check if intersection point is in own route")
+                if self.in_own_route((lat, lon)):
+                    print("In my route | OBU {n}".format(n=self.id))
+                else:
+                    print("NOT in my route | OBU {n}".format(n=self.id))
 
         self.decide_next_move()
 
@@ -119,14 +151,16 @@ class OBU:
         client.subscribe(topic=[("vanetza/out/denm", 0), ("vanetza/out/cam", 0)])
 
         while not self.finished:
+            print("-------------- New TICK from OBU[" + str(self.id) + "]")
             # update cars position
             self.coords = self.navigation.get_coords(self.speed)
             cam_message = self.generate_cam()
-            self.send_message("vanetza/in/cam",cam_message)
-            time.sleep(1)
+            self.send_message("vanetza/in/cam", cam_message)
+            # Podes ignorar, é so para trocar de rota
             if self.navigation.get_position() > 110:
                 if self.name == "car_merge":
                     self.navigation.set_route("lane_1")
+            time.sleep(1)
 
         client.loop_stop()
         client.disconnect()

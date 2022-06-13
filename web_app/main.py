@@ -1,11 +1,14 @@
-from concurrent.futures import thread
 from flask import Flask, render_template, jsonify
-import csv
 from simulation.simulation import Simulation
 from threading import Thread
+import logging
 
 
 app = Flask(__name__, static_url_path="/static")
+
+# DISABLE GET AND POST REQUESTS FROM STANDART OUTPUT
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 ## Start Simulation
 s = Simulation()

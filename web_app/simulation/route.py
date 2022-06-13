@@ -6,16 +6,17 @@ from geopy.distance import geodesic as GD
 class Route:
     def __init__(self, name):
         self.name = name
+        self.coords = []
         self.load_coords()
         self.route_length = len(self.coords)
 
-    def get_position(self,position):
+    def get_position(self, position):
         return self.coords[position]
 
     def next_coord(self, car_position, speed):
         velocity_ms = self.kmh_to_ms(speed)  # speed in km/h
         distance_m = self.next_distance(velocity_ms, 0.5)
-        new_position = self.next_position(car_position,distance_m)
+        new_position = self.next_position(car_position, distance_m)
         return new_position, self.coords[(new_position) % self.route_length]
 
     def kmh_to_ms(self, speed):
@@ -27,7 +28,7 @@ class Route:
     def next_distance(self, speed, refresh_rate):
         return round(speed * refresh_rate, 4)
 
-    def next_position(self,position, distance):
+    def next_position(self, position, distance):
         for pos in range(position + 1, len(self.coords)):
             d = GD(self.coords[position], self.coords[pos]).m
 
