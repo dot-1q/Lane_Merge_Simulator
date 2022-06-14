@@ -1,4 +1,6 @@
 from simulation.route import Route
+import math
+import numpy as np
 
 
 class Navigation:
@@ -25,3 +27,17 @@ class Navigation:
 
     def get_position(self):
         return self.position
+    
+    def is_behind(self, coord1, coord2):
+        dLon = coord2[1] - coord1[1]
+        y = math.sin(dLon) * math.cos(coord2[0])
+        x = math.cos(coord1[0])*math.sin(coord2[0]) - math.sin(coord1[0])*math.cos(coord2[0])*math.cos(dLon)
+        bearing = np.rad2deg(math.atan2(y, x))
+        if bearing < 0:
+            bearing += 360
+        
+        # means it's behind
+        if bearing >= 90:
+            return True
+        else:
+            return False
