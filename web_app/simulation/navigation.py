@@ -19,7 +19,7 @@ class Navigation:
         self.intersection = None
         # This is the safe distance in meters, meaning, it's the space that has to
         # be in between cars for safe driving on the road
-        self.safe_distance = 10
+        self.safe_distance = 5
 
     def set_route(self, route_name):
         for route in self.all_routes:
@@ -32,6 +32,22 @@ class Navigation:
 
     def get_position(self):
         return self.position
+
+    # Get the new merge location, given the route we want to enter
+    # By default, we get the coordinate that is 2 meters ahead in the new route
+    def get_merge_location(self, route):
+        # in range is a slice till the end of the coordinates array. Mind the ":"
+        for new_p in route[self.position:]:
+            d = GD(route[self.position], new_p).m
+
+            # the new position has to be 2 meters, and we need to
+            # make sure it's ahead, because sometimes it could calculate
+            # 2 meters behind
+            if d >= 2 and (not self.is_behind(new_p, self.current_route[self.position])):
+                return new_p
+        return 0
+
+        pass
 
     def is_behind(self, coord1, coord2):
         dLon = coord2[1] - coord1[1]

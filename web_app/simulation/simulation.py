@@ -18,7 +18,7 @@ class Simulation:
         routes.append(Route("lane_2"))
         routes.append(Route("lane_merge"))
 
-        self.cars.append(OBU("car_merge", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_merge"), 57))
+        self.cars.append(OBU("car_merge", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_merge"), 58))
         self.cars.append(OBU("car_1", 2, "192.168.98.10", 5, 2, Navigation(routes, "lane_1"), 60))
         self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_2"), random.randint(110, 120)))
 
@@ -37,15 +37,22 @@ class Simulation:
 
     def get_status(self):
         status = {}
-        space = (0, 0)
+        bl = (0, 0)
+        fl = (0, 0)
+        new_position = (0, 0)
         for car in self.cars:
             s = {"speed": car.speed, "state": car.state, "coords": car.coords}
             status[car.name] = s
             # Means he is merging to a new position
             if (car.new_space is not None):
-                space = car.new_space
-        
-        status['inter'] = {"coords": space}
+                bl = car.bl
+                fl = car.fl
+                new_position = car.new_space
+
+        # The limits for the merge
+        status['bl'] = {"coords": bl}
+        status['fl'] = {"coords": fl}
+        status['new_position'] = {"coords": new_position}
         return status
 
 

@@ -13,7 +13,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/e347a7d6fb.js" crossorigin="anonymous"></script>
     <script>
-        var car_1, car_2, car_merge, inter
+        var car_1, car_2, car_merge, bl, fl, new_position
         function loadMap() {
             // create the map
             map = new google.maps.Map(document.getElementById("map"), {
@@ -35,8 +35,8 @@
                 position: new google.maps.LatLng(41.704683, -8.79842),
                 icon: {
                     url: 'static/car.png',
-                    scaledSize: new google.maps.Size(26, 26),
-                    anchor: new google.maps.Point(0, 13),
+                    scaledSize: new google.maps.Size(20, 20),
+                    anchor: new google.maps.Point(10, 10),
                 },
                 title: "OBU",
                 map: map,
@@ -45,8 +45,8 @@
                 position: new google.maps.LatLng(41.70471, -8.798368),
                 icon: {
                     url: 'static/car.png',
-                    scaledSize: new google.maps.Size(26, 26),
-                    anchor: new google.maps.Point(0, 13),
+                    scaledSize: new google.maps.Size(20, 20),
+                    anchor: new google.maps.Point(10, 10),
                 },
                 title: "OBU",
                 map: map,
@@ -55,18 +55,38 @@
                 position: new google.maps.LatLng(41.704013, -8.798942),
                 icon: {
                     url: 'static/car.png',
-                    scaledSize: new google.maps.Size(26, 26),
-                    anchor: new google.maps.Point(0, 13),
+                    scaledSize: new google.maps.Size(20, 20),
+                    anchor: new google.maps.Point(10, 10),
                 },
                 title: "OBU",
                 map: map,
             });
-            inter = new google.maps.Marker({
+            new_position = new google.maps.Marker({
                 position: new google.maps.LatLng(0, 0),
                 icon: {
                     url: 'static/intersection.png',
                     scaledSize: new google.maps.Size(10, 10),
-                    anchor: new google.maps.Point(0, 13),
+                    anchor: new google.maps.Point(5, 5),
+                },
+                title: "OBU",
+                map: map,
+            });
+            bl = new google.maps.Marker({
+                position: new google.maps.LatLng(0, 0),
+                icon: {
+                    url: 'static/limit.png',
+                    scaledSize: new google.maps.Size(10, 10),
+                    anchor: new google.maps.Point(5, 5),
+                },
+                title: "OBU",
+                map: map,
+            });
+            fl = new google.maps.Marker({
+                position: new google.maps.LatLng(0, 0),
+                icon: {
+                    url: 'static/limit.png',
+                    scaledSize: new google.maps.Size(10, 10),
+                    anchor: new google.maps.Point(5, 5),
                 },
                 title: "OBU",
                 map: map,
@@ -81,11 +101,15 @@
                 var LatLng1 = new google.maps.LatLng(json.car_merge.coords[0], json.car_merge.coords[1]);
                 var LatLng2 = new google.maps.LatLng(json.car_1.coords[0], json.car_1.coords[1]);
                 var LatLng3 = new google.maps.LatLng(json.car_2.coords[0], json.car_2.coords[1]);
-                var LatLng4 = new google.maps.LatLng(json.inter.coords[0], json.inter.coords[1]);
+                var LatLng4 = new google.maps.LatLng(json.bl.coords[0], json.bl.coords[1]);
+                var LatLng5 = new google.maps.LatLng(json.fl.coords[0], json.fl.coords[1]);
+                var LatLng6 = new google.maps.LatLng(json.new_position.coords[0], json.new_position.coords[1]);
                 car_merge.setPosition(LatLng1);
                 car_1.setPosition(LatLng2);
                 car_2.setPosition(LatLng3);
-                inter.setPosition(LatLng4);
+                bl.setPosition(LatLng4);
+                fl.setPosition(LatLng5);
+                new_position.setPosition(LatLng6)
 
                 // Update Coords
                 document.getElementById('car_1_coords').innerText = json.car_1.coords[0] + " , " + json.car_1.coords[1];

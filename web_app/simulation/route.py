@@ -12,9 +12,6 @@ class Route:
     def __getitem__(self, key):
         return self.coords[key]
 
-    def get_coords(self, position):
-        return self.coords[position]
-
     def next_coord(self, car_position, speed):
         velocity_ms = self.kmh_to_ms(speed)  # speed in km/h
         distance_m = self.next_distance(velocity_ms, 0.5)

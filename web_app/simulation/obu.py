@@ -1,3 +1,4 @@
+from tracemalloc import start
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 import json
@@ -23,9 +24,11 @@ class OBU:
         self.coords = self.navigation.get_coords(self.speed)
         self.other_cars = {}
         self.involved = True
-        self.new_space = None
         self.evaluated_inter = False
         self.lane_ending = False
+        self.new_space = None
+        self.bl = None
+        self.fl = None
 
     def set_coords_and_position(self, values):
         self.position = values[0]
@@ -67,6 +70,9 @@ class OBU:
         # TODO : needs to be cleaner, since it's still hardcoded
         space_for_merge = self.navigation.space_between(new_route, self.length)
         car_coords = (self.other_cars[2]["lat"], self.other_cars[2]["lon"])
+        # The back and forward limits of the zone we're checking
+        self.bl = space_for_merge[0]
+        self.fl = space_for_merge[-1]
 
         # Check if the car is in the space we want to be in
         if self.navigation.check_in_between(space_for_merge, car_coords):
@@ -174,10 +180,9 @@ class OBU:
                 # If distance to the intersectiion is less than 60m, we send a DENM about the merge request
                 if distance < 40 or started_merge:
                     # TODO This is hard coded, and needs to be cleaned up
-                    position = self.navigation.position
                     adj_route = self.navigation.get_route("lane_1")
-                    self.new_space = adj_route.get_coords(position + 5)
-                    # TODO This is hard coded, and needs to be cleaned up
+                    # Get the coordinate in the new route on wich we want to merge into
+                    self.new_space = self.navigation.get_merge_location(adj_route)
 
                     # We only want to notify about the merge request once, then a decision making process is started
                     if notified is False:
@@ -191,6 +196,8 @@ class OBU:
                         print("OBU can merge")
                         # If it has, merge
                         self.merge()
+                        self.lane_ending = False
+                        started_merge = False
                     # Slow down or any other mechanism and then merge
                     else:
                         print("OBU CAN'T merge")
