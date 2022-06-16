@@ -1,5 +1,4 @@
 import os
-from xml.etree.ElementTree import tostring
 from geopy.distance import geodesic as GD
 
 
@@ -10,7 +9,10 @@ class Route:
         self.load_coords()
         self.route_length = len(self.coords)
 
-    def get_position(self, position):
+    def __getitem__(self, key):
+        return self.coords[key]
+
+    def get_coords(self, position):
         return self.coords[position]
 
     def next_coord(self, car_position, speed):
@@ -26,7 +28,7 @@ class Route:
     # for default, refresh rate is 0,5 sec
     # speed in m/s and time in sec
     def next_distance(self, speed, refresh_rate):
-        return round(speed * refresh_rate, 4)
+        return round(speed * refresh_rate, 7)
 
     def next_position(self, position, distance):
         for pos in range(position + 1, len(self.coords)):

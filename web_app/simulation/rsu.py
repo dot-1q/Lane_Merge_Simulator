@@ -27,8 +27,6 @@ class RSU:
 
     def start(self):
         print("RSU started")
-        print(self.coords[0])
-        print(self.coords[1])
         dir = os.path.dirname(__file__)
         filename = os.path.join(dir, 'coordinates', 'intersection.csv')
         with open(filename) as f:

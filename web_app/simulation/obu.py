@@ -1,4 +1,3 @@
-from types import new_class
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 import json
@@ -6,15 +5,16 @@ import time
 from geopy.distance import geodesic as GD
 from simulation.messages.cam import CAM, PublicTransportContainer, SpecialVehicle
 from simulation.messages.denm import *
+from threading import Thread
 from sty import bg
 
 
 class OBU:
-    def __init__(self, name, id, address, height, width, navigation, speed):
+    def __init__(self, name, id, address, length, width, navigation, speed):
         self.name = name
         self.id = id
         self.address = address
-        self.height = height
+        self.length = length
         self.width = width
         self.state = "Gathering Info"
         self.speed = speed
@@ -23,6 +23,9 @@ class OBU:
         self.coords = self.navigation.get_coords(self.speed)
         self.other_cars = {}
         self.involved = True
+        self.new_space = None
+        self.evaluated_inter = False
+        self.lane_ending = False
 
     def set_coords_and_position(self, values):
         self.position = values[0]
@@ -57,6 +60,27 @@ class OBU:
             return True
         else:
             return False
+
+    def has_space(self, new_route):
+        # Get the space that the car needs in the new route
+        # This is given by the position he wants to be in, minus/plus his width
+        # TODO : needs to be cleaner, since it's still hardcoded
+        space_for_merge = self.navigation.space_between(new_route, self.length)
+        car_coords = (self.other_cars[2]["lat"], self.other_cars[2]["lon"])
+
+        # Check if the car is in the space we want to be in
+        if self.navigation.check_in_between(space_for_merge, car_coords):
+            print(bg.red + "OBU[2] is in the space we want to be in" + bg.rs)
+            return False
+        else:
+            print(bg.blue + "OBU[2] is NOT the space we want to be in" + bg.rs)
+            return True
+
+    def merge(self):
+        self.navigation.set_route("lane_1")
+        # Set the new position in the new route
+        # Still hardcoded, has to be cleaned up
+        self.navigation.set_position(self.navigation.position + 5)
 
     def handle_message(self, client, userdata, message):
         msg_type = message.topic
@@ -94,6 +118,8 @@ class OBU:
                     else:
                         # Do Stuff
                         print(bg.blue + "OBU[{n}] Merge pont is ahead".format(n=self.id) + bg.rs)
+                        self.involved = True
+
                 if sub_cause_code == 32:
                     pass
                 if sub_cause_code == 33:
@@ -113,33 +139,25 @@ class OBU:
             elif cause_code == 34:
                 pass
 
-            elif cause_code == 35:
+            elif cause_code == 35 and (not self.evaluated_inter):
+                self.evaluated_inter = True
                 # it's an intersection denm
                 # print("Check if intersection point is in own route")
                 if self.in_own_route((lat, lon)):
                     print("In my route | OBU {n}".format(n=self.id))
-
-                    # Check the distance between him and the intersection
-                    distance = GD(self.coords, (lat, lon)).m
-                    print("Distance to the intersection = {d}".format(d=distance))
-
-                    # If distance to the intersectiion is less than 60m, we send a DENM about the merge request
-                    if distance < 60:
-                        new_spot = (41.703438, -8.797485)
-                        denm_message = self.generate_denm(new_spot, CauseCode.merge_event.value, SubCauseCode.merge_request.value)
-                        self.send_message("vanetza/in/denm", denm_message)
-                else:
-                    # print("NOT in my route | OBU {n}".format(n=self.id))
-                    pass
-
-        self.decide_next_move()
+                    self.involved = True
+                    self.lane_ending = True
+                    self.navigation.intersection = (lat, lon)
 
     def start(self):
+        print("OBU[{n}] started".format(n=self.id))
         client = mqtt.Client(self.name)
         client.connect(self.address)
         client.on_message = self.handle_message
         client.loop_start()
         client.subscribe(topic=[("vanetza/out/denm", 0), ("vanetza/out/cam", 0)])
+        notified = False
+        started_merge = False
 
         while not self.finished:
             # print("-------------- New TICK from OBU[" + str(self.id) + "]")
@@ -147,6 +165,43 @@ class OBU:
             self.coords = self.navigation.get_coords(self.speed)
             cam_message = self.generate_cam()
             self.send_message("vanetza/in/cam", cam_message)
+
+            # If this OBU's lane is ending, check it's distance to the intersection
+            if self.lane_ending is True:
+                distance = round(GD(self.coords, self.navigation.intersection).m, 3)
+                print("Distance to the intersection = {d}".format(d=distance))
+
+                # If distance to the intersectiion is less than 60m, we send a DENM about the merge request
+                if distance < 40 or started_merge:
+                    # TODO This is hard coded, and needs to be cleaned up
+                    position = self.navigation.position
+                    adj_route = self.navigation.get_route("lane_1")
+                    self.new_space = adj_route.get_coords(position + 5)
+                    # TODO This is hard coded, and needs to be cleaned up
+
+                    # We only want to notify about the merge request once, then a decision making process is started
+                    if notified is False:
+                        notified = True
+                        denm_message = self.generate_denm(self.new_space, CauseCode.merge_event.value, SubCauseCode.merge_request.value)
+                        self.send_message("vanetza/in/denm", denm_message)
+                        started_merge = True
+
+                    # Check if car has space for merging
+                    if self.has_space(self.navigation.get_route("lane_1")):
+                        print("OBU can merge")
+                        # If it has, merge
+                        self.merge()
+                    # Slow down or any other mechanism and then merge
+                    else:
+                        print("OBU CAN'T merge")
+                        pass
+
+            if self.involved:
+                print(bg.magenta + "OBU[{n}] is involved in the merge".format(n=self.id) + bg.rs)
+            else:
+                print(bg.yellow + "OBU[{n}] NOT involved in the merge".format(n=self.id) + bg.rs)
+
+            # Tick rate for the OBU
             time.sleep(1)
 
         client.loop_stop()
@@ -181,7 +236,7 @@ class OBU:
             0,
             0,
             self.coords[0],
-            self.height,
+            self.length,
             self.coords[1],
             0,
             0,

@@ -13,7 +13,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/e347a7d6fb.js" crossorigin="anonymous"></script>
     <script>
-        var car_1, car_2, car_merge
+        var car_1, car_2, car_merge, inter
         function loadMap() {
             // create the map
             map = new google.maps.Map(document.getElementById("map"), {
@@ -62,7 +62,7 @@
                 map: map,
             });
             inter = new google.maps.Marker({
-                position: new google.maps.LatLng(41.703438,-8.797485,),
+                position: new google.maps.LatLng(0, 0),
                 icon: {
                     url: 'static/intersection.png',
                     scaledSize: new google.maps.Size(10, 10),
@@ -81,9 +81,11 @@
                 var LatLng1 = new google.maps.LatLng(json.car_merge.coords[0], json.car_merge.coords[1]);
                 var LatLng2 = new google.maps.LatLng(json.car_1.coords[0], json.car_1.coords[1]);
                 var LatLng3 = new google.maps.LatLng(json.car_2.coords[0], json.car_2.coords[1]);
+                var LatLng4 = new google.maps.LatLng(json.inter.coords[0], json.inter.coords[1]);
                 car_merge.setPosition(LatLng1);
                 car_1.setPosition(LatLng2);
                 car_2.setPosition(LatLng3);
+                inter.setPosition(LatLng4);
 
                 // Update Coords
                 document.getElementById('car_1_coords').innerText = json.car_1.coords[0] + " , " + json.car_1.coords[1];
