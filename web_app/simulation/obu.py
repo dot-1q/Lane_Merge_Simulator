@@ -1,4 +1,3 @@
-from tracemalloc import start
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 import json
@@ -47,7 +46,12 @@ class OBU:
         pass
 
     def decelerate(self):
-        pass
+        # Decrease this OBU's speed by 5
+        self.speed -= 5
+        print(bg.blue + "OBU[{n}] is decelerating".format(n=self.id) + bg.rs)
+        # Send a DENM about this decrease of speed
+        denm_message = self.generate_denm(self.coords, CauseCode.breaking.value, 0)
+        self.send_message("vanetza/in/denm", denm_message)
 
     def get_distance(self):
         pass
@@ -87,6 +91,10 @@ class OBU:
         # Set the new position in the new route
         # Still hardcoded, has to be cleaned up
         self.navigation.set_position(self.navigation.position + 5)
+
+        # Send a message aboout the merge that has just finished
+        denm_message = self.generate_denm(self.coords, CauseCode.merge_event.value, SubCauseCode.finished_merge.value)
+        self.send_message("vanetza/in/denm", denm_message)
 
     def handle_message(self, client, userdata, message):
         msg_type = message.topic
@@ -129,7 +137,9 @@ class OBU:
                 if sub_cause_code == 32:
                     pass
                 if sub_cause_code == 33:
-                    pass
+                    # Means that the merge has ended, so the "involved flag" can
+                    # be set off
+                    self.involved = False
                 if sub_cause_code == 34:
                     pass
                 if sub_cause_code == 35:
@@ -179,6 +189,10 @@ class OBU:
 
                 # If distance to the intersectiion is less than 60m, we send a DENM about the merge request
                 if distance < 40 or started_merge:
+                    # If the merge has started, we send a message indicating so
+                    denm_message = self.generate_denm(self.coords, CauseCode.merge_event.value, SubCauseCode.start_merge.value)
+                    self.send_message("vanetza/in/denm", denm_message)
+
                     # TODO This is hard coded, and needs to be cleaned up
                     adj_route = self.navigation.get_route("lane_1")
                     # Get the coordinate in the new route on wich we want to merge into
@@ -198,9 +212,11 @@ class OBU:
                         self.merge()
                         self.lane_ending = False
                         started_merge = False
+                        self.involved = False
                     # Slow down or any other mechanism and then merge
                     else:
                         print("OBU CAN'T merge")
+                        self.decelerate()
                         pass
 
             if self.involved:
