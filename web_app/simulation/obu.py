@@ -28,6 +28,7 @@ class OBU:
         self.new_space = None
         self.bl = None
         self.fl = None
+        self.adj_route = None
 
     def set_coords_and_position(self, values):
         self.position = values[0]
@@ -47,7 +48,7 @@ class OBU:
 
     def decelerate(self):
         # Decrease this OBU's speed by 5
-        self.speed -= 5
+        self.speed -= 2
         print(bg.blue + "OBU[{n}] is decelerating".format(n=self.id) + bg.rs)
         # Send a DENM about this decrease of speed
         denm_message = self.generate_denm(self.coords, CauseCode.breaking.value, 0)
@@ -68,12 +69,21 @@ class OBU:
         else:
             return False
 
+    # Check how many cars are in the route we want to be in
+    def other_cars_in_route(self, route):
+        # TODO: this will only return the first car encountered
+        # It should return all
+        # Has to be cleaned up
+        for car, stats in self.other_cars.items():
+            if self.navigation.check_in_route(route, stats['lat']):
+                return (self.other_cars[car]['lat'], self.other_cars[car]['lon'])
+
     def has_space(self, new_route):
         # Get the space that the car needs in the new route
         # This is given by the position he wants to be in, minus/plus his width
         # TODO : needs to be cleaner, since it's still hardcoded
         space_for_merge = self.navigation.space_between(new_route, self.length)
-        car_coords = (self.other_cars[2]["lat"], self.other_cars[2]["lon"])
+        car_coords = self.other_cars_in_route(self.adj_route)
         # The back and forward limits of the zone we're checking
         self.bl = space_for_merge[0]
         self.fl = space_for_merge[-1]
@@ -87,7 +97,7 @@ class OBU:
             return True
 
     def merge(self):
-        self.navigation.set_route("lane_1")
+        self.navigation.set_route(self.adj_route.name)
         # Set the new position in the new route
         # Still hardcoded, has to be cleaned up
         self.navigation.set_position(self.navigation.position + 5)
@@ -121,6 +131,7 @@ class OBU:
             if cause_code == 31 and self.involved:
                 if sub_cause_code == 31:
                     print("OBU[{n}] Evaluating Merge Request from OBU[{n2}]".format(n=self.id, n2=station_id))
+                    self.state = "Evaluating Merge"
 
                     # Check if this car is ahead or behind the merge location
                     if self.navigation.is_behind((lat, lon), self.coords):
@@ -129,6 +140,9 @@ class OBU:
                         self.send_message("vanetza/in/denm", denm_message)
                         # This car is not involved in the merge
                         self.involved = False
+                        # Since this OBU is not involved, he goes to the
+                        # First state
+                        self.state = "Gathering Information"
                     else:
                         # Do Stuff
                         print(bg.blue + "OBU[{n}] Merge pont is ahead".format(n=self.id) + bg.rs)
@@ -136,15 +150,15 @@ class OBU:
 
                 if sub_cause_code == 32:
                     pass
+
                 if sub_cause_code == 33:
                     # Means that the merge has ended, so the "involved flag" can
                     # be set off
                     self.involved = False
+                    self.state = "Gathering Information"
+
                 if sub_cause_code == 34:
-                    pass
-                if sub_cause_code == 35:
                     print("OBU[{n}] | OBU[{n2}] stated that he is not involved".format(n=self.id, n2=station_id))
-                    pass
 
             elif cause_code == 32:
                 pass
@@ -172,7 +186,6 @@ class OBU:
         client.on_message = self.handle_message
         client.loop_start()
         client.subscribe(topic=[("vanetza/out/denm", 0), ("vanetza/out/cam", 0)])
-        notified = False
         started_merge = False
 
         while not self.finished:
@@ -189,24 +202,26 @@ class OBU:
 
                 # If distance to the intersectiion is less than 60m, we send a DENM about the merge request
                 if distance < 40 or started_merge:
-                    # If the merge has started, we send a message indicating so
-                    denm_message = self.generate_denm(self.coords, CauseCode.merge_event.value, SubCauseCode.start_merge.value)
+
+                    # We only want to send a DENM once and only calculate the adj route once as well
+                    if not started_merge:
+                        started_merge = True
+                        self.state = "Evaluating Merge"
+                        # If the merge has started, we send a message indicating so
+                        self.adj_route = self.navigation.get_adj_route()
+                        new_space = self.navigation.get_merge_location(self.adj_route)
+                        denm_message = self.generate_denm(new_space, CauseCode.merge_event.value, SubCauseCode.start_merge.value)
+                        self.send_message("vanetza/in/denm", denm_message)
+
+                    # Get the coordinate in the new route on wich we want to merge into
+                    self.new_space = self.navigation.get_merge_location(self.adj_route)
+                    # Send a new DENM message to the other cars with the merge point we want to go into
+                    denm_message = self.generate_denm(self.new_space, CauseCode.merge_event.value, SubCauseCode.merge_location.value)
                     self.send_message("vanetza/in/denm", denm_message)
 
-                    # TODO This is hard coded, and needs to be cleaned up
-                    adj_route = self.navigation.get_route("lane_1")
-                    # Get the coordinate in the new route on wich we want to merge into
-                    self.new_space = self.navigation.get_merge_location(adj_route)
-
-                    # We only want to notify about the merge request once, then a decision making process is started
-                    if notified is False:
-                        notified = True
-                        denm_message = self.generate_denm(self.new_space, CauseCode.merge_event.value, SubCauseCode.merge_request.value)
-                        self.send_message("vanetza/in/denm", denm_message)
-                        started_merge = True
-
                     # Check if car has space for merging
-                    if self.has_space(self.navigation.get_route("lane_1")):
+                    if self.has_space(self.adj_route):
+                        self.state = "Merging"
                         print("OBU can merge")
                         # If it has, merge
                         self.merge()
@@ -223,7 +238,6 @@ class OBU:
                 print(bg.magenta + "OBU[{n}] is involved in the merge".format(n=self.id) + bg.rs)
             else:
                 print(bg.yellow + "OBU[{n}] NOT involved in the merge".format(n=self.id) + bg.rs)
-
             # Tick rate for the OBU
             time.sleep(1)
 

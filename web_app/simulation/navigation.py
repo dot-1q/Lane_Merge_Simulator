@@ -7,14 +7,14 @@ from geopy.distance import geodesic as GD
 class Navigation:
     def __init__(self, all_routes, initial_route):
         self.all_routes = all_routes
-        self.current_route = []
+        self.current_route: Route = None
         self.set_route(initial_route)
         self.position = 0
         # Adjacent routes
         self.adjacency = {
-            "lane_1": ["lane_merge", "lane_2"],
-            "lane_2": ["lane_1"],
-            "lane_merge": ["lane_1"],
+            "lane_1":  "lane_2",
+            "lane_2": "lane_1",
+            "lane_merge": "lane_1",
         }
         self.intersection = None
         # This is the safe distance in meters, meaning, it's the space that has to
@@ -33,6 +33,11 @@ class Navigation:
     def get_position(self):
         return self.position
 
+    def get_adj_route(self):
+        for lane, adj in self.adjacency.items():
+            if lane == self.current_route.name:
+                return self.get_route(adj)
+
     # Get the new merge location, given the route we want to enter
     # By default, we get the coordinate that is 2 meters ahead in the new route
     def get_merge_location(self, route):
@@ -46,8 +51,6 @@ class Navigation:
             if d >= 2 and (not self.is_behind(new_p, self.current_route[self.position])):
                 return new_p
         return 0
-
-        pass
 
     def is_behind(self, coord1, coord2):
         dLon = coord2[1] - coord1[1]
@@ -119,6 +122,15 @@ class Navigation:
             # Also, to optimize, we only check on the latitude  coordinate
             if math.isclose(coord[0], car_coord[0], abs_tol=0.000002):
                 return True
+        # Else, it is not in that space
+        return False
 
+    def check_in_route(self, route, car_coord):
+        for coord in route:
+            # Means that the distance from our set os space coordinates
+            # And the coordinate of the car , falls between a margin of error acceptable
+            # Also, to optimize, we only check on the latitude  coordinate
+            if math.isclose(coord[0], car_coord, abs_tol=0.000002):
+                return True
         # Else, it is not in that space
         return False

@@ -41,11 +41,10 @@ class CauseCode(Enum):
 
 
 class SubCauseCode(Enum):
-    merge_request = 31
-    start_merge = 32
+    start_merge = 31
+    merge_location = 32
     finished_merge = 33
-    merge_denied = 34
-    not_involved = 35
+    not_involved = 34
 
 
 class ActionID:

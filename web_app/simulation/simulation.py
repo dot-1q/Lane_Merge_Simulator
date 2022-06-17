@@ -20,7 +20,7 @@ class Simulation:
 
         self.cars.append(OBU("car_merge", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_merge"), 58))
         self.cars.append(OBU("car_1", 2, "192.168.98.10", 5, 2, Navigation(routes, "lane_1"), 60))
-        self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_2"), random.randint(110, 120)))
+        self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_2"), random.randint(65, 70)))
 
         thr_rsu = Thread(target=self.rsu.start)
         thr_rsu.start()
