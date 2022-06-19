@@ -11,16 +11,25 @@ class Simulation:
         self.cars = []
         self.rsu = RSU("rsu", 1, "192.168.98.254", 5, 10, (41.704018, -8.798036))
 
-    def run(self):
+    def run(self, situation):
 
         routes = []
         routes.append(Route("lane_1"))
         routes.append(Route("lane_2"))
         routes.append(Route("lane_merge"))
 
-        self.cars.append(OBU("car_merge", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_merge"), 58))
-        self.cars.append(OBU("car_1", 2, "192.168.98.10", 5, 2, Navigation(routes, "lane_1"), 60))
-        self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_2"), random.randint(65, 70)))
+        # Situation 1 | merge = 70, car_1 = 65
+        # Situation 2 | merge = 70, car_1 = 55, car_2 = 70 e lane1
+
+        if situation == 1:
+            self.cars.append(OBU("car_merge", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_merge"), 70))
+            self.cars.append(OBU("car_1", 2, "192.168.98.10", 5, 2, Navigation(routes, "lane_1"), 65))
+            self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_2"), random.randint(70, 70)))
+
+        elif situation == 2:
+            self.cars.append(OBU("car_merge", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_merge"), 70))
+            self.cars.append(OBU("car_1", 2, "192.168.98.10", 5, 2, Navigation(routes, "lane_1"), 55))
+            self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_1"), random.randint(70, 70)))
 
         thr_rsu = Thread(target=self.rsu.start)
         thr_rsu.start()
@@ -33,6 +42,9 @@ class Simulation:
 
         for thr in thr_cars:
             thr.join()
+        
+        print("all cars ended")
+        self.rsu.finished = True
         thr_rsu.join()
 
     def get_status(self):
@@ -54,6 +66,12 @@ class Simulation:
         status['fl'] = {"coords": fl}
         status['new_position'] = {"coords": new_position}
         return status
+    
+    def kill_threads(self):
+        for car in self.cars:
+            car.finshed = True
+        
+        self.rsu.finished = True
 
 
 if __name__ == "__main__":

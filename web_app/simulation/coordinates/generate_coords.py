@@ -1,24 +1,14 @@
-from posixpath import normpath
-from geopy.distance import geodesic as GD
-
-number_of_coords = 100
-f1 = "lane_1_new"
-f2 = "lane_2_new"
-f3 = "lane_merge_new"
-start_coord = (41.703456, -8.797550)
-
-l1 = []
-l2 = []
-lm = []
-
-for i in range(0, number_of_coords):
-    east_coord = GD(meters=3.75).destination(start_coord, 60).format_decimal()
-    east_coord2 = GD(meters=7).destination(start_coord, 60).format_decimal()
-    north_coord = GD(meters=1).destination(start_coord, 150).format_decimal()
-    start_coord = north_coord
-    l1.append(east_coord)
-    l2.append(east_coord2)
-    lm.append(north_coord)
+coord_file = open('lane_merge.csv', 'r+')
+new_coord_file = open('coord_between.csv', 'w+')
 
 
-print(lm)
+a = [[float(line[0]), float(line[1].strip())] for line in [lines.split(',') for lines in coord_file][1:]]
+
+new_coord_file.write("lat,lon\n")
+for line in range(0, len(a)-1):
+    new_coordX = round((a[line][0] + a[line+1][0])/2, 6)
+    new_coordY = round((a[line][1] + a[line+1][1])/2, 6)
+    new_coord_file.write("{:.6f}".format(a[line][0]) + "," + "{:.6f}".format(a[line][1])+"\n")
+    new_coord_file.write("{:.6f}".format(new_coordX) + "," + "{:.6f}".format(new_coordY)+"\n")
+
+new_coord_file.write(str(a[len(a)-1][0]) + "," + str(a[len(a)-1][1])+"\n")

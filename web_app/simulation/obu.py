@@ -21,6 +21,7 @@ class OBU:
         self.finished = False
         self.navigation = navigation
         self.coords = self.navigation.get_coords(self.speed)
+        # By default, we start the simulation assuming the cars are involved
         self.other_cars = {}
         self.involved = True
         self.evaluated_inter = False
@@ -44,11 +45,16 @@ class OBU:
         self.finished = finished
 
     def accelerate(self):
+        self.speed += 1
+        print(bg.blue + "OBU[{n}] is Accelerating".format(n=self.id) + bg.rs)
+        # Send a DENM about this decrease of speed
+        denm_message = self.generate_denm(self.coords, CauseCode.speeding_up.value, 0)
+        self.send_message("vanetza/in/denm", denm_message)
         pass
 
     def decelerate(self):
-        # Decrease this OBU's speed by 5
-        self.speed -= 2
+        # Decrease this OBU's speed by 3
+        self.speed -= 3
         print(bg.blue + "OBU[{n}] is decelerating".format(n=self.id) + bg.rs)
         # Send a DENM about this decrease of speed
         denm_message = self.generate_denm(self.coords, CauseCode.breaking.value, 0)
@@ -69,32 +75,27 @@ class OBU:
         else:
             return False
 
-    # Check how many cars are in the route we want to be in
-    def other_cars_in_route(self, route):
-        # TODO: this will only return the first car encountered
-        # It should return all
-        # Has to be cleaned up
-        for car, stats in self.other_cars.items():
-            if self.navigation.check_in_route(route, stats['lat']):
-                return (self.other_cars[car]['lat'], self.other_cars[car]['lon'])
-
     def has_space(self, new_route):
         # Get the space that the car needs in the new route
         # This is given by the position he wants to be in, minus/plus his width
-        # TODO : needs to be cleaner, since it's still hardcoded
-        space_for_merge = self.navigation.space_between(new_route, self.length)
-        car_coords = self.other_cars_in_route(self.adj_route)
+        space_for_merge = self.navigation.space_between(self.new_space, new_route, self.length)
         # The back and forward limits of the zone we're checking
         self.bl = space_for_merge[0]
         self.fl = space_for_merge[-1]
+        in_space = False
+        cars_inside = []
 
-        # Check if the car is in the space we want to be in
-        if self.navigation.check_in_between(space_for_merge, car_coords):
-            print(bg.red + "OBU[2] is in the space we want to be in" + bg.rs)
-            return False
-        else:
-            print(bg.blue + "OBU[2] is NOT the space we want to be in" + bg.rs)
-            return True
+        for car_id, stats in self.other_cars.items():
+            # Check if the car in the new route we want to be in
+            if self.navigation.check_in_route(new_route, stats['lon']):
+                # Check if the car is in the space we want to be in
+                if self.navigation.check_in_between(space_for_merge, (stats['lat'], stats['lon'])):
+                    print(bg.red + "OBU[{n}] is in the space we want to be in".format(n=car_id) + bg.rs)
+                    in_space = True
+                    cars_inside.append(car_id)
+                else:
+                    print(bg.blue + "OBU[{n}] is NOT the space we want to be in".format(n=car_id) + bg.rs)
+        return not in_space, cars_inside
 
     def merge(self):
         self.navigation.set_route(self.adj_route.name)
@@ -116,9 +117,7 @@ class OBU:
             speed = cam_message.speed
             lat = cam_message.latitude
             lon = cam_message.longitude
-            # Update the road description upon recieving a cam
-            self.other_cars[si] = {"lat": lat, "lon": lon, "speed": speed}
-            pass
+            self.update_road_state(si, lat, lon, speed)
 
         if msg_type == "vanetza/out/denm":
             station_id = message["fields"]["denm"]["management"]["actionID"]["originatingStationID"]
@@ -159,6 +158,10 @@ class OBU:
 
                 if sub_cause_code == 34:
                     print("OBU[{n}] | OBU[{n2}] stated that he is not involved".format(n=self.id, n2=station_id))
+                    # Update our internal state for this OBU as not involved
+                    for car_id in self.other_cars.keys():
+                        if car_id == station_id:
+                            self.other_cars[station_id]['involved'] = 'no'
 
             elif cause_code == 32:
                 pass
@@ -191,7 +194,7 @@ class OBU:
         while not self.finished:
             # print("-------------- New TICK from OBU[" + str(self.id) + "]")
             # update cars position
-            self.coords = self.navigation.get_coords(self.speed)
+            self.coords, end = self.navigation.get_coords(self.speed)
             cam_message = self.generate_cam()
             self.send_message("vanetza/in/cam", cam_message)
 
@@ -220,7 +223,8 @@ class OBU:
                     self.send_message("vanetza/in/denm", denm_message)
 
                     # Check if car has space for merging
-                    if self.has_space(self.adj_route):
+                    has_space, cars_inside = self.has_space(self.adj_route)
+                    if has_space:
                         self.state = "Merging"
                         print("OBU can merge")
                         # If it has, merge
@@ -231,18 +235,42 @@ class OBU:
                     # Slow down or any other mechanism and then merge
                     else:
                         print("OBU CAN'T merge")
-                        self.decelerate()
-                        pass
+                        # If there's more than 3 cars inside where we want to merge, we just decelerate
+                        if len(cars_inside) < 3:
+                            car_behind = False
+                            car_ahead = False
+                            for car in cars_inside:
+                                if self.other_cars[car]['position'] == 'behind':
+                                    car_behind = True
+                                    cb = car
+                                if self.other_cars[car]['position'] == 'ahead':
+                                    ch = car
+                                    car_ahead = True
+                            # If there's a car behind and a car ahead, meaning, between two vehicles
+                            if car_behind and car_ahead:
+                                if (self.speed + 5 <= self.other_cars[ch]['speed']):
+                                    self.accelerate()
+                            # If there's only one car behind
+                            elif car_behind and not car_ahead:
+                                print(bg.magenta + "OBU[{n}] is behind".format(n=cb) + bg.rs)
+                                self.accelerate()
+                            # If there's no car behind us, only ahead,
+                            # we decrease speed and enter behind them
+                            elif not car_behind:
+                                print(bg.yellow + "OBU[{n}] is ahead".format(n=ch) + bg.rs)
+                                self.decelerate()
+                            # Else, we mantain velocity
+                        else:
+                            self.decelerate()
 
-            if self.involved:
-                print(bg.magenta + "OBU[{n}] is involved in the merge".format(n=self.id) + bg.rs)
-            else:
-                print(bg.yellow + "OBU[{n}] NOT involved in the merge".format(n=self.id) + bg.rs)
             # Tick rate for the OBU
             time.sleep(1)
+            if end:
+                self.finished = True
 
         client.loop_stop()
         client.disconnect()
+        print(bg.red + "OBU[{n}] ended it's run".format(n=self.id) + bg.rs)
 
     def __repr__(self) -> str:
         return (
@@ -307,3 +335,19 @@ class OBU:
             Situation(7, EventType(cause_code, sub_cause_code)),
         )
         return denm_message.to_dict()
+
+    def update_road_state(self, si, lat, lon, speed):
+        # If we've already created a dict for this OBU, we update, else, we create
+        if self.other_cars.get(si) is not None:
+            self.other_cars[si]['lat'] = lat
+            self.other_cars[si]['lon'] = lon
+            self.other_cars[si]['speed'] = speed
+            if self.navigation.is_behind((lat, lon), self.coords):
+                # print("OBU[{n}] is behind OBU[{n2}]".format(n=si, n2=self.id))
+                self.other_cars[si]['position'] = "behind"
+            else:
+                # print("OBU[{n}] is ahead OBU[{n2}]".format(n=si, n2=self.id))
+                self.other_cars[si]['position'] = "ahead"
+        else:
+            # When we create a state for a car, by default we set that he is involved on the merge
+            self.other_cars[si] = {'lat': lat, 'lon': lon, 'speed': speed, 'position': 'behind', 'involved': 'yes'}

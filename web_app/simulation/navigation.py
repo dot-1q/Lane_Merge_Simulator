@@ -19,7 +19,7 @@ class Navigation:
         self.intersection = None
         # This is the safe distance in meters, meaning, it's the space that has to
         # be in between cars for safe driving on the road
-        self.safe_distance = 5
+        self.safe_distance = 6
 
     def set_route(self, route_name):
         for route in self.all_routes:
@@ -28,7 +28,11 @@ class Navigation:
 
     def get_coords(self, speed):
         self.position, coords = self.current_route.next_coord(self.position, speed)
-        return coords
+        if self.position == 0:
+            end = True
+        else:
+            end = False
+        return coords, end
 
     def get_position(self):
         return self.position
@@ -45,10 +49,10 @@ class Navigation:
         for new_p in route[self.position:]:
             d = GD(route[self.position], new_p).m
 
-            # the new position has to be 2 meters, and we need to
+            # the new position has to be 1 meters, and we need to
             # make sure it's ahead, because sometimes it could calculate
-            # 2 meters behind
-            if d >= 2 and (not self.is_behind(new_p, self.current_route[self.position])):
+            # 1 meters behind
+            if d >= 2:  # and (not self.is_behind(new_p, self.current_route[self.position])):
                 return new_p
         return 0
 
@@ -60,7 +64,7 @@ class Navigation:
         if bearing < 0:
             bearing += 360
         # means it's behind
-        if bearing >= 90:
+        if bearing >= 60:
             return True
         else:
             return False
@@ -73,7 +77,7 @@ class Navigation:
     def set_position(self, position):
         self.position = position
 
-    def space_between(self, route, length):
+    def space_between(self, merge_point, route, length):
         # Distance backwards and distance forward refer to the set of coordinates
         # that delimits the space needed for merge
         # It's calculated by adding and subtracting from the new position we want to be in,
@@ -91,7 +95,7 @@ class Navigation:
         # point
         offset = 0
         while 1:
-            distance = GD(route[self.position], route[self.position-offset]).m
+            distance = GD(merge_point, route[self.position-offset]).m
             if distance >= margin:
                 backward_limit = offset
                 break
@@ -101,7 +105,7 @@ class Navigation:
         # point
         offset = 0
         while 1:
-            distance = GD(route[self.position], route[self.position+offset]).m
+            distance = GD(merge_point, route[self.position+offset]).m
             if distance >= margin:
                 forward_limit = offset
                 break
@@ -116,21 +120,10 @@ class Navigation:
     # Because of that, we couldn't simply use the python one liner "is" to check
     # if a coordinate is in an array of coordinates
     def check_in_between(self, space, car_coord):
-        for coord in space:
-            # Means that the distance from our set os space coordinates
-            # And the coordinate of the car , falls between a margin of error acceptable
-            # Also, to optimize, we only check on the latitude  coordinate
-            if math.isclose(coord[0], car_coord[0], abs_tol=0.000002):
-                return True
-        # Else, it is not in that space
-        return False
+        # We only check the longitude values insted of the par (lat,lon)
+        lons = [c[1] for c in space]
+        return np.any(np.isclose(car_coord[1], lons, rtol=0.0000001))
 
     def check_in_route(self, route, car_coord):
-        for coord in route:
-            # Means that the distance from our set os space coordinates
-            # And the coordinate of the car , falls between a margin of error acceptable
-            # Also, to optimize, we only check on the latitude  coordinate
-            if math.isclose(coord[0], car_coord, abs_tol=0.000002):
-                return True
-        # Else, it is not in that space
-        return False
+        # We only check the longitude values insted of the par (lat,lon)
+        return np.any(np.isclose(car_coord, route.get_longitudes(), rtol=0.0000001))

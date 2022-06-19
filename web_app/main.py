@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from simulation.simulation import Simulation
 from threading import Thread
 import logging
@@ -10,16 +10,27 @@ app = Flask(__name__, static_url_path="/static")
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
-## Start Simulation
+# Start Simulation
 s = Simulation()
 
-
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
-    refresh_rate = 100
+    refresh_rate = 50
     intersection = "41.703456 , -8.797550"
-    thr = Thread(target=s.run)
-    thr.start()
+    situation = 0
+    if request.method == 'POST':
+        if request.form.get('situation1'):
+            print("Situation1")
+            situation = 1
+        if request.form.get('situation2'):
+            print("Situation1")
+            situation = 2
+
+    if situation != 0:
+        thr = Thread(target=s.run, args=[situation])
+        thr.start()
+        thr.join()
+
     return render_template("index.html", intersection_point=intersection, refresh_rate=refresh_rate)
 
 

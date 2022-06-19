@@ -8,13 +8,17 @@ class Route:
         self.coords = []
         self.load_coords()
         self.route_length = len(self.coords)
+        self.longitudes = [coord[1] for coord in self.coords]
 
     def __getitem__(self, key):
         return self.coords[key]
 
+    def get_longitudes(self):
+        return self.longitudes
+
     def next_coord(self, car_position, speed):
         velocity_ms = self.kmh_to_ms(speed)  # speed in km/h
-        distance_m = self.next_distance(velocity_ms, 0.5)
+        distance_m = self.next_distance(velocity_ms, 1)
         new_position = self.next_position(car_position, distance_m)
         return new_position, self.coords[(new_position) % self.route_length]
 
@@ -25,14 +29,13 @@ class Route:
     # for default, refresh rate is 0,5 sec
     # speed in m/s and time in sec
     def next_distance(self, speed, refresh_rate):
-        return round(speed * refresh_rate, 7)
+        return round(speed * refresh_rate, 4)
 
     def next_position(self, position, distance):
         for pos in range(position + 1, len(self.coords)):
             d = GD(self.coords[position], self.coords[pos]).m
 
-            # melhorar esta condição, para ser mais precisa
-            if d >= distance - 1 and distance <= distance + 1:
+            if d >= distance:
                 return pos
         return 0
 

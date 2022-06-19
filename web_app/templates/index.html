@@ -18,12 +18,12 @@
             // create the map
             map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 19,
-                center: { lat: 41.703456, lng: -8.797550},
+                center: { lat: 41.703456, lng: -8.797550 },
                 //center: {lat: 39.68510168855263, lng: -8.686979090299104},
                 mapTypeId: "satellite",
             });
             rsu_road = new google.maps.Marker({
-                position: new google.maps.LatLng(41.704018, -8.798036),
+                position: new google.maps.LatLng(0, 0),
                 icon: {
                     url: 'static/antenna.png',
                     scaledSize: new google.maps.Size(80, 80),
@@ -32,31 +32,31 @@
                 map: map,
             });
             car_1 = new google.maps.Marker({
-                position: new google.maps.LatLng(41.704683, -8.79842),
+                position: new google.maps.LatLng(0, 0),
                 icon: {
                     url: 'static/car.png',
-                    scaledSize: new google.maps.Size(20, 20),
-                    anchor: new google.maps.Point(10, 10),
+                    scaledSize: new google.maps.Size(22, 22),
+                    anchor: new google.maps.Point(0, 11),
                 },
                 title: "OBU",
                 map: map,
             });
             car_2 = new google.maps.Marker({
-                position: new google.maps.LatLng(41.70471, -8.798368),
+                position: new google.maps.LatLng(0, 0),
                 icon: {
                     url: 'static/car.png',
-                    scaledSize: new google.maps.Size(20, 20),
-                    anchor: new google.maps.Point(10, 10),
+                    scaledSize: new google.maps.Size(22, 22),
+                    anchor: new google.maps.Point(0, 11),
                 },
                 title: "OBU",
                 map: map,
             });
             car_merge = new google.maps.Marker({
-                position: new google.maps.LatLng(41.704013, -8.798942),
+                position: new google.maps.LatLng(0, 0),
                 icon: {
                     url: 'static/car_merge.png',
-                    scaledSize: new google.maps.Size(20, 20),
-                    anchor: new google.maps.Point(10, 10),
+                    scaledSize: new google.maps.Size(22, 22),
+                    anchor: new google.maps.Point(0, 11),
                 },
                 title: "OBU",
                 map: map,
@@ -65,8 +65,8 @@
                 position: new google.maps.LatLng(0, 0),
                 icon: {
                     url: 'static/intersection.png',
-                    scaledSize: new google.maps.Size(10, 10),
-                    anchor: new google.maps.Point(5, 5),
+                    scaledSize: new google.maps.Size(12, 12),
+                    anchor: new google.maps.Point(0, 6),
                 },
                 title: "OBU",
                 map: map,
@@ -75,8 +75,8 @@
                 position: new google.maps.LatLng(0, 0),
                 icon: {
                     url: 'static/limit.png',
-                    scaledSize: new google.maps.Size(10, 10),
-                    anchor: new google.maps.Point(5, 5),
+                    scaledSize: new google.maps.Size(12, 12),
+                    anchor: new google.maps.Point(0, 6),
                 },
                 title: "OBU",
                 map: map,
@@ -85,8 +85,8 @@
                 position: new google.maps.LatLng(0, 0),
                 icon: {
                     url: 'static/limit.png',
-                    scaledSize: new google.maps.Size(10, 10),
-                    anchor: new google.maps.Point(5, 5),
+                    scaledSize: new google.maps.Size(12, 12),
+                    anchor: new google.maps.Point(0, 6),
                 },
                 title: "OBU",
                 map: map,
@@ -131,6 +131,12 @@
 <body onload="loadMap()" style="margin: 0;">
     <div class="header">
         <h1 href="#default" class="logo">Lane Merge Visualization</h1>
+        <div class="header-left">
+            <form method="POST" action="/">
+                <button class="button" type="submit" name="situation1" value="sit1">Situation 1</button>
+                <button class="button" type="submit" name="situation2" value="sit2">Situation 2</button>
+            </form>
+        </div>
         <div class="header-right">
             <img style="height: 50px; margin: 10px;" src="static/ua.png">
             <img style="height: 50px; margin: 10px;" src="static/logo.png">
