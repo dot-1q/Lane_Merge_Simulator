@@ -30,6 +30,7 @@ class OBU:
         self.bl = None
         self.fl = None
         self.adj_route = None
+        self.helping_merge = False
 
     def set_coords_and_position(self, values):
         self.position = values[0]
@@ -146,6 +147,7 @@ class OBU:
                         # Do Stuff
                         print(bg.blue + "OBU[{n}] Merge pont is ahead".format(n=self.id) + bg.rs)
                         self.involved = True
+                        #self.helping_merge = True
 
                 if sub_cause_code == 32:
                     pass
@@ -262,6 +264,22 @@ class OBU:
                             # Else, we mantain velocity
                         else:
                             self.decelerate()
+
+            if self.helping_merge:
+                print("OBU is helping ")
+                # Go to the adjacent route
+                self.state = "Evaluating Merge"
+                # If the merge has started, we send a message indicating so
+                self.adj_route = self.navigation.get_adj_route()
+                self.new_space = self.navigation.get_merge_location(self.adj_route)
+                # Check if car has space for merging
+                has_space, cars_inside = self.has_space(self.adj_route)
+                if has_space:
+                    self.state = "Merging"
+                    print("OBU can merge")
+                    # If it has, merge
+                    self.merge()
+                    self.helping_merge = False
 
             # Tick rate for the OBU
             time.sleep(1)

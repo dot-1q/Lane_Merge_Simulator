@@ -13,6 +13,7 @@ log.setLevel(logging.ERROR)
 # Start Simulation
 s = Simulation()
 
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     refresh_rate = 50

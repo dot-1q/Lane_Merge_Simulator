@@ -125,6 +125,9 @@
                 document.getElementById('car_merge_state').innerText = json.car_merge.state;
             });
         }
+        function reset_simulation() {
+            $.get('/kill_threads');
+        }
     </script>
 </head>
 

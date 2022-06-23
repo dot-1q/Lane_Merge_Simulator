@@ -64,7 +64,7 @@ class Navigation:
         if bearing < 0:
             bearing += 360
         # means it's behind
-        if bearing >= 60:
+        if bearing >= 90:
             return True
         else:
             return False

@@ -23,7 +23,7 @@ class Simulation:
 
         if situation == 1:
             self.cars.append(OBU("car_merge", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_merge"), 70))
-            self.cars.append(OBU("car_1", 2, "192.168.98.10", 5, 2, Navigation(routes, "lane_1"), 65))
+            self.cars.append(OBU("car_1", 2, "192.168.98.10", 5, 2, Navigation(routes, "lane_1"), 67))
             self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_2"), random.randint(70, 70)))
 
         elif situation == 2:
@@ -56,7 +56,7 @@ class Simulation:
             s = {"speed": car.speed, "state": car.state, "coords": car.coords}
             status[car.name] = s
             # Means he is merging to a new position
-            if (car.new_space is not None):
+            if (car.new_space is not None and car.name == "car_merge"):
                 bl = car.bl
                 fl = car.fl
                 new_position = car.new_space
@@ -66,12 +66,6 @@ class Simulation:
         status['fl'] = {"coords": fl}
         status['new_position'] = {"coords": new_position}
         return status
-    
-    def kill_threads(self):
-        for car in self.cars:
-            car.finshed = True
-        
-        self.rsu.finished = True
 
 
 if __name__ == "__main__":
