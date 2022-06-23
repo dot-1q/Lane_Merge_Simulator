@@ -45,6 +45,7 @@ class SubCauseCode(Enum):
     merge_location = 32
     finished_merge = 33
     not_involved = 34
+    helped_merge = 35
 
 
 class ActionID:

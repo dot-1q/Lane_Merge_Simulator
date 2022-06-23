@@ -29,6 +29,9 @@ def home():
         if request.form.get('situation3'):
             print("Situation3")
             situation = 3
+        if request.form.get('situation4'):
+            print("Situation4")
+            situation = 4
 
     if situation != 0:
         thr = Thread(target=s.run, args=[situation])
@@ -42,6 +45,12 @@ def home():
 def get_coords():
     status = s.get_status()
     return jsonify(status)
+
+
+@app.route("/kill_simulation", methods=["GET"])
+def kill_simulation():
+    s.kill_simulation()
+    return "Killed Simulation"
 
 
 if __name__ == "__main__":

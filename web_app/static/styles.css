@@ -142,3 +142,27 @@ article {
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
+
+.button_reset {
+  display: inline-block;
+  padding: 15px 25px;
+  margin: 5px;
+  font-size: 15;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #e90d0d;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px #999;
+}
+
+.button_reset:hover {background-color: #9e0a0a}
+
+.button_reset:active {
+  background-color: #9e0a0a;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}

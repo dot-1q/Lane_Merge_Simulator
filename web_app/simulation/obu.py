@@ -278,6 +278,8 @@ class OBU:
                     if has_space:
                         self.state = "Merging"
                         print("OBU[{n}] can merge".format(n=self.id))
+                        denm_message = self.generate_denm(self.coords, CauseCode.merge_event.value, SubCauseCode.helped_merge.value)
+                        self.send_message("vanetza/in/denm", denm_message)
                         # If it has, merge
                         self.merge()
                     else:

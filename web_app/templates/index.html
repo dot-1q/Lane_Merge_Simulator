@@ -140,6 +140,8 @@
                 document.getElementById('car_merge_state').innerText = json.car_merge.state;
             });
         }
+
+        function kill_sim(){$.get('/kill_simulation')}
     </script>
 </head>
 
@@ -151,8 +153,10 @@
                 <button class="button" type="submit" name="situation1" value="sit1">Situation 1</button>
                 <button class="button" type="submit" name="situation2" value="sit2">Situation 2</button>
                 <button class="button" type="submit" name="situation3" value="sit3">Situation 3</button>
+                <button class="button" type="submit" name="situation4" value="sit4">Fully Randomized </button>
             </form>
         </div>
+        <button class="button_reset" style="margin-left:150px" onclick="kill_sim()">Kill Simulation </button>
         <div class="header-right">
             <img style="height: 50px; margin: 10px;" src="static/ua.png">
             <img style="height: 50px; margin: 10px;" src="static/logo.png">
