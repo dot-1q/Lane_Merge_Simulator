@@ -22,14 +22,22 @@ class Simulation:
         # Situation 2 | merge = 70, car_1 = 55, car_2 = 70 e lane1
 
         if situation == 1:
-            self.cars.append(OBU("car_merge", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_merge"), 70))
+            self.cars.append(OBU("car_merge", 5, "192.168.98.13", 5, 2, Navigation(routes, "lane_merge"), 70))
             self.cars.append(OBU("car_1", 2, "192.168.98.10", 5, 2, Navigation(routes, "lane_1"), 67))
-            self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_2"), random.randint(70, 70)))
+            self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_2"), 75))
+            self.cars.append(OBU("car_3", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_2"), 67))
 
         elif situation == 2:
-            self.cars.append(OBU("car_merge", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_merge"), 70))
+            self.cars.append(OBU("car_merge", 5, "192.168.98.13", 5, 2, Navigation(routes, "lane_merge"), 70))
             self.cars.append(OBU("car_1", 2, "192.168.98.10", 5, 2, Navigation(routes, "lane_1"), 55))
-            self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_1"), random.randint(70, 70)))
+            self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_1"), 70))
+            self.cars.append(OBU("car_3", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_2"), 55))
+
+        elif situation == 3:
+            self.cars.append(OBU("car_merge", 5, "192.168.98.13", 5, 2, Navigation(routes, "lane_merge"), 65))
+            self.cars.append(OBU("car_1", 2, "192.168.98.10", 5, 2, Navigation(routes, "lane_1"), 55))
+            self.cars.append(OBU("car_2", 3, "192.168.98.11", 5, 2, Navigation(routes, "lane_1"), 70))
+            self.cars.append(OBU("car_3", 4, "192.168.98.12", 5, 2, Navigation(routes, "lane_2"), 45))
 
         thr_rsu = Thread(target=self.rsu.start)
         thr_rsu.start()

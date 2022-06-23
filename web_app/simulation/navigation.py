@@ -13,7 +13,7 @@ class Navigation:
         # Adjacent routes
         self.adjacency = {
             "lane_1":  "lane_2",
-            "lane_2": "lane_1",
+            "lane_2": None,
             "lane_merge": "lane_1",
         }
         self.intersection = None

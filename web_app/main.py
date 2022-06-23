@@ -24,8 +24,11 @@ def home():
             print("Situation1")
             situation = 1
         if request.form.get('situation2'):
-            print("Situation1")
+            print("Situation2")
             situation = 2
+        if request.form.get('situation3'):
+            print("Situation3")
+            situation = 3
 
     if situation != 0:
         thr = Thread(target=s.run, args=[situation])

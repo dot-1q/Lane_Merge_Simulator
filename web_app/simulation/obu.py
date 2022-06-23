@@ -147,7 +147,7 @@ class OBU:
                         # Do Stuff
                         print(bg.blue + "OBU[{n}] Merge pont is ahead".format(n=self.id) + bg.rs)
                         self.involved = True
-                        #self.helping_merge = True
+                        self.helping_merge = True
 
                 if sub_cause_code == 32:
                     pass
@@ -236,7 +236,7 @@ class OBU:
                         self.involved = False
                     # Slow down or any other mechanism and then merge
                     else:
-                        print("OBU CAN'T merge")
+                        print("OBU[{n}] CAN'T merge".format(n=self.id))
                         # If there's more than 3 cars inside where we want to merge, we just decelerate
                         if len(cars_inside) < 3:
                             car_behind = False
@@ -266,19 +266,25 @@ class OBU:
                             self.decelerate()
 
             if self.helping_merge:
-                print("OBU is helping ")
+                print("OBU[{n}] checking if he can help".format(n=self.id))
                 # Go to the adjacent route
                 self.state = "Evaluating Merge"
                 # If the merge has started, we send a message indicating so
                 self.adj_route = self.navigation.get_adj_route()
-                self.new_space = self.navigation.get_merge_location(self.adj_route)
-                # Check if car has space for merging
-                has_space, cars_inside = self.has_space(self.adj_route)
-                if has_space:
-                    self.state = "Merging"
-                    print("OBU can merge")
-                    # If it has, merge
-                    self.merge()
+                if self.adj_route is not None:
+                    self.new_space = self.navigation.get_merge_location(self.adj_route)
+                    # Check if car has space for merging
+                    has_space, cars_inside = self.has_space(self.adj_route)
+                    if has_space:
+                        self.state = "Merging"
+                        print("OBU[{n}] can merge".format(n=self.id))
+                        # If it has, merge
+                        self.merge()
+                    else:
+                        print("OBU[{n}] can't help".format(n=self.id))
+                        self.helping_merge = False
+                else:
+                    print("OBU[{n}] can't help".format(n=self.id))
                     self.helping_merge = False
 
             # Tick rate for the OBU
