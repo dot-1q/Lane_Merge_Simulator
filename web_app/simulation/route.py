@@ -18,7 +18,7 @@ class Route:
 
     def next_coord(self, car_position, speed):
         velocity_ms = self.kmh_to_ms(speed)  # speed in km/h
-        distance_m = self.next_distance(velocity_ms, 1)
+        distance_m = self.next_distance(velocity_ms, 0.5)
         new_position = self.next_position(car_position, distance_m)
         return new_position, self.coords[(new_position) % self.route_length]
 
@@ -26,7 +26,7 @@ class Route:
         return (speed * 1000) / 3600
 
     # method to calculate how much distance a car drive from previous coords
-    # for default, refresh rate is 0,5 sec
+    # for default, refresh rate is 1.5 sec
     # speed in m/s and time in sec
     def next_distance(self, speed, refresh_rate):
         return round(speed * refresh_rate, 4)

@@ -31,6 +31,7 @@ class OBU:
         self.fl = None
         self.adj_route = None
         self.helping_merge = False
+        self.cams = 0
 
     def set_coords_and_position(self, values):
         self.position = values[0]
@@ -95,6 +96,7 @@ class OBU:
                     in_space = True
                     cars_inside.append(car_id)
                 else:
+                    print("OBU[{n}] checking".format(n=self.id))
                     print(bg.blue + "OBU[{n}] is NOT the space we want to be in".format(n=car_id) + bg.rs)
         return not in_space, cars_inside
 
@@ -119,6 +121,7 @@ class OBU:
             lat = cam_message.latitude
             lon = cam_message.longitude
             self.update_road_state(si, lat, lon, speed)
+            self.cams += 1
 
         if msg_type == "vanetza/out/denm":
             station_id = message["fields"]["denm"]["management"]["actionID"]["originatingStationID"]
@@ -129,7 +132,7 @@ class OBU:
 
             # Check from cause code and sub cause code what type of situation it is
             if cause_code == 31 and self.involved:
-                if sub_cause_code == 31:
+                if sub_cause_code == 36:
                     print("OBU[{n}] Evaluating Merge Request from OBU[{n2}]".format(n=self.id, n2=station_id))
                     self.state = "Evaluating Merge"
 
@@ -149,16 +152,16 @@ class OBU:
                         self.involved = True
                         self.helping_merge = True
 
-                if sub_cause_code == 32:
+                if sub_cause_code == 37:
                     pass
 
-                if sub_cause_code == 33:
+                if sub_cause_code == 38:
                     # Means that the merge has ended, so the "involved flag" can
                     # be set off
                     self.involved = False
                     self.state = "Gathering Information"
 
-                if sub_cause_code == 34:
+                if sub_cause_code == 39:
                     print("OBU[{n}] | OBU[{n2}] stated that he is not involved".format(n=self.id, n2=station_id))
                     # Update our internal state for this OBU as not involved
                     for car_id in self.other_cars.keys():
@@ -194,11 +197,11 @@ class OBU:
         started_merge = False
 
         while not self.finished:
-            # print("-------------- New TICK from OBU[" + str(self.id) + "]")
             # update cars position
             self.coords, end = self.navigation.get_coords(self.speed)
             cam_message = self.generate_cam()
             self.send_message("vanetza/in/cam", cam_message)
+
 
             # If this OBU's lane is ending, check it's distance to the intersection
             if self.lane_ending is True:
@@ -282,6 +285,7 @@ class OBU:
                         self.send_message("vanetza/in/denm", denm_message)
                         # If it has, merge
                         self.merge()
+                        self.helping_merge = False
                     else:
                         print("OBU[{n}] can't help".format(n=self.id))
                         self.helping_merge = False
@@ -290,7 +294,7 @@ class OBU:
                     self.helping_merge = False
 
             # Tick rate for the OBU
-            time.sleep(1)
+            time.sleep(0.5)
             if end:
                 self.finished = True
 
