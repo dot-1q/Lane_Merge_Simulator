@@ -5,7 +5,7 @@
     <title>Lane Merge Visualization</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="static/styles.css" rel="stylesheet">
+    <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9M86-1yyuucibiNR-wh8kiboANAcUjuI&libraries=visualization"
@@ -25,7 +25,7 @@
             rsu_road = new google.maps.Marker({
                 position: new google.maps.LatLng(0, 0),
                 icon: {
-                    url: 'static/antenna.png',
+                    url: "{{url_for('static', filename='antenna.png')}}",
                     scaledSize: new google.maps.Size(80, 80),
                 },
                 title: "RSU",
@@ -34,7 +34,7 @@
             car_1 = new google.maps.Marker({
                 position: new google.maps.LatLng(0, 0),
                 icon: {
-                    url: 'static/car.png',
+                    url: "{{url_for('static', filename='car.png')}}",
                     scaledSize: new google.maps.Size(22, 22),
                     anchor: new google.maps.Point(0, 11),
                 },
@@ -44,7 +44,7 @@
             car_2 = new google.maps.Marker({
                 position: new google.maps.LatLng(0, 0),
                 icon: {
-                    url: 'static/car.png',
+                    url: "{{url_for('static', filename='car.png')}}",
                     scaledSize: new google.maps.Size(22, 22),
                     anchor: new google.maps.Point(0, 11),
                 },
@@ -54,7 +54,7 @@
             car_3 = new google.maps.Marker({
                 position: new google.maps.LatLng(0, 0),
                 icon: {
-                    url: 'static/car.png',
+                    url: "{{url_for('static', filename='car.png')}}",
                     scaledSize: new google.maps.Size(22, 22),
                     anchor: new google.maps.Point(0, 11),
                 },
@@ -64,7 +64,7 @@
             car_merge = new google.maps.Marker({
                 position: new google.maps.LatLng(0, 0),
                 icon: {
-                    url: 'static/car_merge.png',
+                    url: "{{url_for('static', filename='car_merge.png')}}",
                     scaledSize: new google.maps.Size(22, 22),
                     anchor: new google.maps.Point(0, 11),
                 },
@@ -74,7 +74,7 @@
             new_position = new google.maps.Marker({
                 position: new google.maps.LatLng(0, 0),
                 icon: {
-                    url: 'static/intersection.png',
+                    url: "{{url_for('static', filename='intersection.png')}}",
                     scaledSize: new google.maps.Size(12, 12),
                     anchor: new google.maps.Point(0, 6),
                 },
@@ -84,7 +84,7 @@
             bl = new google.maps.Marker({
                 position: new google.maps.LatLng(0, 0),
                 icon: {
-                    url: 'static/limit.png',
+                    url: "{{url_for('static', filename='limit.png')}}",
                     scaledSize: new google.maps.Size(12, 12),
                     anchor: new google.maps.Point(0, 6),
                 },
@@ -94,7 +94,7 @@
             fl = new google.maps.Marker({
                 position: new google.maps.LatLng(0, 0),
                 icon: {
-                    url: 'static/limit.png',
+                    url: "{{url_for('static', filename='limit.png')}}",
                     scaledSize: new google.maps.Size(12, 12),
                     anchor: new google.maps.Point(0, 6),
                 },
@@ -158,8 +158,8 @@
         </div>
         <button class="button_reset" style="margin-left:150px" onclick="kill_sim()">Kill Simulation </button>
         <div class="header-right">
-            <img style="height: 50px; margin: 10px;" src="static/ua.png">
-            <img style="height: 50px; margin: 10px;" src="static/logo.png">
+            <img style="height: 50px; margin: 10px;" src="{{url_for('static', filename='ua.png')}}">
+            <img style="height: 50px; margin: 10px;" src="{{url_for('static', filename='logo.png')}}">
         </div>
     </div>
 
