@@ -1,4 +1,4 @@
-# Lane_Merge_Simulator using Vanetza to exchange ITS-G5 messages
+## Lane Merge Simulator using Vanetza to exchange ITS-G5 messages
 
 ## DEMO
 ![alt text](lane_merge.gif)
