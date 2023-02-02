@@ -25,7 +25,7 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-4. Install the game requirements:
+4. Install the requirements:
 ```bash
 pip3 install -r requirements.txt
 ```
